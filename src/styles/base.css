@@ -1,0 +1,423 @@
+/* ---- Reset-ish ---- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--rl-bg);
+  color: var(--rl-ink);
+  font-family: var(--rl-font-prose);
+  font-size: 18px;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---- Page frame ---- */
+.lesson-root {
+  max-width: var(--rl-arena-width);
+  margin: 0 auto;
+  padding: 0 24px 160px;
+}
+
+.lesson-section {
+  max-width: var(--rl-prose-width);
+  margin: 0 auto;
+}
+
+/* Prose blocks stay narrow; interactive panels break out wider. */
+.lesson-section > p,
+.lesson-section > ul,
+.lesson-section > ol,
+.lesson-section > blockquote,
+.lesson-section > h2,
+.lesson-section > h3,
+.lesson-section > .katex-display,
+.lesson-section > table,
+.lesson-section > figure.numeric {
+  max-width: var(--rl-prose-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ---- Masthead ---- */
+.masthead {
+  max-width: var(--rl-prose-width);
+  margin: 0 auto;
+  padding: 72px 0 28px;
+  border-bottom: 2px solid var(--rl-rule);
+}
+
+.masthead .eyebrow {
+  font-family: var(--rl-font-ui);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rl-ink-faint);
+  margin: 0 0 12px;
+}
+
+.masthead h1 {
+  font-family: var(--rl-font-prose);
+  font-weight: 600;
+  font-size: 44px;
+  line-height: 1.08;
+  margin: 0 0 10px;
+  letter-spacing: -0.01em;
+}
+
+.masthead .subtitle {
+  font-family: var(--rl-font-prose);
+  font-style: italic;
+  font-size: 21px;
+  color: var(--rl-ink-muted);
+  margin: 0;
+}
+
+/* prerequisite + meta strip */
+.prereq-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: center;
+  margin-top: 22px;
+  font-family: var(--rl-font-ui);
+  font-size: 13px;
+  color: var(--rl-ink-muted);
+}
+
+.prereq-strip .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: var(--rl-surface-2);
+  border: 1px solid var(--rl-border);
+  border-radius: 999px;
+}
+
+.prereq-strip .meta-dot {
+  color: var(--rl-ink-faint);
+}
+
+/* ---- Headings ---- */
+.lesson-section h2 {
+  font-family: var(--rl-font-prose);
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 1.15;
+  margin: 72px 0 4px;
+  letter-spacing: -0.01em;
+}
+
+.lesson-section h2 .sec-num {
+  font-family: var(--rl-font-mono);
+  font-size: 15px;
+  color: var(--rl-algo-ucb);
+  margin-right: 12px;
+  vertical-align: middle;
+}
+
+.lesson-section .tagline {
+  font-style: italic;
+  color: var(--rl-ink-muted);
+  margin: 0 0 18px;
+}
+
+.lesson-section h3 {
+  font-family: var(--rl-font-ui);
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0.01em;
+  margin: 36px 0 8px;
+}
+
+/* ---- Prose ---- */
+.lesson-section p {
+  margin: 0 0 18px;
+}
+
+.lesson-section strong {
+  font-weight: 600;
+}
+
+.lesson-section a {
+  color: var(--rl-algo-ucb);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--rl-algo-ucb) 35%, transparent);
+}
+.lesson-section a:hover {
+  border-bottom-color: var(--rl-algo-ucb);
+}
+
+/* ---- Blockquotes: running examples & sidebars ---- */
+.lesson-section blockquote {
+  margin: 24px auto;
+  padding: 16px 20px;
+  background: var(--rl-surface-2);
+  border-left: 3px solid var(--rl-rule);
+  font-size: 17px;
+}
+.lesson-section blockquote p:last-child {
+  margin-bottom: 0;
+}
+.lesson-section blockquote.forward-link {
+  border-left-color: var(--rl-algo-ucb);
+  background: var(--rl-ucb-tint);
+}
+.lesson-section blockquote.sidebar {
+  border-left-color: var(--rl-algo-thompson);
+  background: var(--rl-thompson-tint);
+}
+.lesson-section blockquote .label {
+  font-family: var(--rl-font-ui);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--rl-ink-faint);
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* ---- Code blocks (pseudocode) ---- */
+.lesson-section pre {
+  font-family: var(--rl-font-mono);
+  font-size: 13.5px;
+  line-height: 1.55;
+  background: #1c1e22;
+  color: #e8e6df;
+  padding: 16px 18px;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin: 22px auto;
+}
+.lesson-section :not(pre) > code {
+  font-family: var(--rl-font-mono);
+  font-size: 0.86em;
+  background: var(--rl-surface-2);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+/* ---- Tables ---- */
+.lesson-section table {
+  border-collapse: collapse;
+  font-family: var(--rl-font-mono);
+  font-size: 13.5px;
+  margin: 22px auto;
+  width: 100%;
+}
+.lesson-section table caption {
+  font-family: var(--rl-font-ui);
+  font-size: 12px;
+  color: var(--rl-ink-faint);
+  text-align: left;
+  margin-bottom: 6px;
+}
+.lesson-section th,
+.lesson-section td {
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--rl-border);
+  text-align: right;
+}
+.lesson-section th:first-child,
+.lesson-section td:first-child {
+  text-align: left;
+}
+.lesson-section thead th {
+  border-bottom: 2px solid var(--rl-rule);
+  font-weight: 600;
+  color: var(--rl-ink-muted);
+}
+.lesson-section tbody tr:last-child td {
+  border-bottom: 1px solid var(--rl-border);
+}
+.lesson-section tr.sum-row td {
+  border-top: 1px solid var(--rl-rule);
+  font-weight: 600;
+}
+
+/* numeric example callouts */
+.lesson-section figure.numeric {
+  margin: 24px auto;
+  padding: 14px 18px;
+  background: var(--rl-surface);
+  border: 1px solid var(--rl-border);
+  border-radius: 6px;
+}
+.lesson-section figure.numeric figcaption {
+  font-family: var(--rl-font-ui);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rl-ink-faint);
+  margin-bottom: 8px;
+}
+
+/* ---- KaTeX tweaks ---- */
+.katex-display {
+  margin: 22px 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 2px 0;
+}
+
+/* ---- Interactive panel chrome ---- */
+.rl-panel {
+  margin: 30px auto;
+  background: var(--rl-surface);
+  border: 1px solid var(--rl-border);
+  border-radius: 8px;
+  max-width: var(--rl-panel-width);
+}
+.rl-panel.arena {
+  max-width: var(--rl-arena-width);
+}
+.rl-panel__header {
+  font-family: var(--rl-font-mono);
+  font-size: 12px;
+  color: var(--rl-ink-faint);
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--rl-border);
+  background: var(--rl-surface-2);
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.rl-panel__header .panel-id::before {
+  content: "panel: ";
+  color: var(--rl-ink-faint);
+  opacity: 0.7;
+}
+.rl-panel__body {
+  padding: 16px;
+}
+
+/* shared control styling */
+.rl-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: center;
+  font-family: var(--rl-font-ui);
+  font-size: 13px;
+  color: var(--rl-ink-muted);
+}
+.rl-controls button {
+  font-family: var(--rl-font-ui);
+  font-size: 13px;
+  padding: 5px 12px;
+  border: 1px solid var(--rl-border);
+  background: var(--rl-surface);
+  color: var(--rl-ink);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 120ms, border-color 120ms;
+}
+.rl-controls button:hover {
+  background: var(--rl-surface-2);
+}
+.rl-controls button:focus-visible {
+  outline: 2px solid var(--rl-algo-ucb);
+  outline-offset: 1px;
+}
+.rl-controls button.primary {
+  background: var(--rl-rule);
+  color: #fff;
+  border-color: var(--rl-rule);
+}
+.rl-controls button.primary:hover {
+  background: #34373d;
+}
+.rl-controls button[aria-pressed="true"] {
+  background: var(--rl-rule);
+  color: #fff;
+  border-color: var(--rl-rule);
+}
+.rl-controls label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.rl-controls input[type="range"] {
+  accent-color: var(--rl-algo-ucb);
+}
+.rl-mono {
+  font-family: var(--rl-font-mono);
+}
+
+/* axes */
+.rl-axis path,
+.rl-axis line {
+  stroke: var(--rl-border);
+}
+.rl-axis text {
+  fill: var(--rl-ink-faint);
+  font-family: var(--rl-font-mono);
+  font-size: 10px;
+}
+
+/* mobile notice for heavy panels */
+.rl-mobile-notice {
+  display: none;
+  padding: 18px;
+  font-family: var(--rl-font-ui);
+  font-size: 14px;
+  color: var(--rl-ink-muted);
+  background: var(--rl-surface-2);
+  border: 1px dashed var(--rl-border);
+  border-radius: 6px;
+  margin: 30px auto;
+  max-width: var(--rl-prose-width);
+  text-align: center;
+}
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
+  }
+}
+
+/* ---- Print: collapse interactives to their first frame ---- */
+@media print {
+  body {
+    background: #fff;
+  }
+  .rl-controls,
+  .rl-panel__header {
+    display: none !important;
+  }
+  .rl-panel {
+    border: 1px solid #ccc;
+    break-inside: avoid;
+  }
+}
+
+/* ---- Mobile: heavy panels (V4–V7) show a notice ---- */
+@media (max-width: 720px) {
+  body {
+    font-size: 17px;
+  }
+  .rl-panel[data-heavy="true"] .rl-panel__body {
+    display: none;
+  }
+  .rl-panel[data-heavy="true"] .rl-mobile-notice {
+    display: block;
+    margin: 0;
+    border: none;
+  }
+}

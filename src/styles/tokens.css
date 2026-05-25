@@ -1,0 +1,44 @@
+:root {
+  /* Surface */
+  --rl-bg:           #faf8f3;   /* warm off-white, calmer than pure paper */
+  --rl-surface:      #ffffff;   /* panel background */
+  --rl-surface-2:    #f1ede4;   /* secondary panel / inset */
+  --rl-border:       #d9d3c4;   /* hairline rules */
+  --rl-rule:         #1c1e22;   /* heavy rule for emphasis */
+
+  /* Ink */
+  --rl-ink:          #1c1e22;   /* primary text, near-black slate */
+  --rl-ink-muted:    #5a5d63;   /* secondary text */
+  --rl-ink-faint:    #8a8d93;   /* tertiary, axes labels */
+
+  /* Algorithm signature colors — REUSED ACROSS THE WHOLE CURRICULUM */
+  --rl-algo-greedy:    #b45309;   /* amber-700  | ε-greedy */
+  --rl-algo-ucb:       #0e7490;   /* cyan-700   | UCB family */
+  --rl-algo-thompson:  #6d28d9;   /* violet-700 | Thompson / Bayesian */
+  --rl-algo-random:    #6b7280;   /* gray-500   | uniform / baseline */
+  --rl-algo-optimal:   #15803d;   /* green-700  | oracle / optimal */
+
+  /* Reward / regret semantic */
+  --rl-reward:       #15803d;   /* good (green) */
+  --rl-regret:       #b91c1c;   /* bad (red-700) */
+
+  /* Tints (translucent variants for fills / bands) */
+  --rl-greedy-tint:   rgba(180, 83, 9, 0.14);
+  --rl-ucb-tint:      rgba(14, 116, 144, 0.14);
+  --rl-thompson-tint: rgba(109, 40, 217, 0.14);
+  --rl-random-tint:   rgba(107, 114, 128, 0.14);
+  --rl-regret-tint:   rgba(185, 28, 28, 0.16);
+
+  /* Fonts */
+  --rl-font-prose:   "IBM Plex Serif", Georgia, serif;
+  --rl-font-ui:      "Inter", system-ui, sans-serif;
+  --rl-font-mono:    "JetBrains Mono", "SF Mono", monospace;
+
+  /* Layout */
+  --rl-prose-width:  680px;
+  --rl-panel-width:  880px;
+  --rl-arena-width:  960px;
+
+  /* Motion */
+  --rl-tween:        300ms;
+}

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { EpsilonGreedy, ThompsonBetaBernoulli, UCB1, RandomPolicy } from "./algorithms";
+import { ThompsonBetaBernoulli, UCB1, RandomPolicy } from "./algorithms";
 import {
   bernoulliKL,
   betaMoments,

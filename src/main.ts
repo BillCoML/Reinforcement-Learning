@@ -14,6 +14,7 @@ import "./styles/tokens.css";
 import "./styles/markov-tokens.css";
 import "./styles/base.css";
 import "./styles/components.css";
+import "./styles/markov-components.css";
 
 import type { LessonMeta } from "./lesson/meta";
 import type { Section } from "./lesson/section";

@@ -1,0 +1,129 @@
+/*
+ * Styles for the Markov-lesson interactive components. Kept separate from the
+ * Bandits components.css so the two lessons' styling stays decoupled.
+ */
+
+/* ---- ChainEditor ---- */
+.mc-editor {
+  font-family: var(--rl-font-ui);
+}
+
+.mc-editor__grid {
+  display: grid;
+  gap: 4px;
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.mc-editor__corner {
+  font-size: 10px;
+  color: var(--rl-ink-faint);
+  font-family: var(--rl-font-mono);
+  padding: 2px 6px;
+  white-space: nowrap;
+}
+
+.mc-editor__head {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--rl-ink);
+  justify-content: center;
+  padding: 2px 4px;
+}
+
+.mc-editor__head.is-row {
+  justify-content: flex-end;
+}
+
+.mc-editor__dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+.mc-editor__cell {
+  display: flex;
+}
+
+.mc-editor__cell input {
+  width: 58px;
+  padding: 5px 6px;
+  font-family: var(--rl-font-mono);
+  font-size: 13px;
+  text-align: center;
+  border: 1px solid var(--rl-border);
+  border-radius: 5px;
+  background: var(--rl-surface);
+  color: var(--rl-ink);
+}
+
+.mc-editor__cell.is-diag input {
+  background: var(--rl-surface-2);
+}
+
+.mc-editor__cell input:focus-visible {
+  outline: 2px solid var(--rl-algo-ucb);
+  outline-offset: 1px;
+}
+
+.mc-editor__rowsum {
+  font-family: var(--rl-font-mono);
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.mc-editor__rowsum.is-ok {
+  color: var(--mc-stationary);
+  background: var(--mc-tint-3);
+}
+
+.mc-editor__rowsum.is-bad {
+  color: var(--mc-periodic);
+  background: rgba(185, 28, 28, 0.12);
+}
+
+.mc-editor__toolbar {
+  margin-top: 12px;
+}
+
+/* ---- shared markov layout helpers ---- */
+.mc-graph {
+  display: block;
+}
+
+.mc-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.mc-col {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+
+.mc-readout {
+  font-family: var(--rl-font-ui);
+  font-size: 13px;
+  color: var(--rl-ink-muted);
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+.mc-badge {
+  display: inline-block;
+  font-family: var(--rl-font-mono);
+  font-size: 11px;
+  padding: 1px 7px;
+  border-radius: 4px;
+  margin-right: 4px;
+}

@@ -1,0 +1,24 @@
+/*
+ * Contractions lesson tokens. Layered on top of tokens.css.
+ */
+:root {
+  /* Contraction palette */
+  --contr-input:        #2563eb;
+  --contr-output:       #16a34a;
+  --contr-fixed-point:  #b91c1c;
+  --contr-trajectory:   #6b7280;
+
+  /* Bound visualization */
+  --contr-bound:        #1c1e22;
+  --contr-bound-fill:   rgba(28, 30, 34, 0.06);
+
+  /* Contraction-on-set */
+  --contr-set-original: rgba(37, 99, 235, 0.18);
+  --contr-set-shrunk:   rgba(22, 163, 74, 0.18);
+
+  /* Status indicators */
+  --contr-ok:     #15803d;
+  --contr-warn:   #b91c1c;
+  --contr-ok-bg:  rgba(21, 128, 61, 0.10);
+  --contr-warn-bg:rgba(185, 28, 28, 0.10);
+}

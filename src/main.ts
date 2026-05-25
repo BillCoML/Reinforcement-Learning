@@ -17,6 +17,7 @@ import "./styles/base.css";
 import "./styles/components.css";
 import "./styles/markov-components.css";
 import "./styles/mdp-components.css";
+import "./styles/contractions-tokens.css";
 
 import type { LessonMeta } from "./lesson/meta";
 import type { Section } from "./lesson/section";
@@ -34,11 +35,13 @@ import { section08 } from "./lesson/section-08-roadmap";
 
 import { markovMeta, markovSections } from "./lesson/markov-chains";
 import { mdpMeta, mdpSections } from "./lesson/mdps";
+import { contractionsMeta, contractionsSections } from "./lesson/contractions";
 
 // Register all interactive Web Components (self-registering on import).
 import "./components/registry";
 import "./components/markov-registry";
 import "./components/mdp-registry";
+import "./components/contractions-registry";
 
 interface LessonDef {
   /** URL slug, e.g. "bandits" → /bandits. */
@@ -53,6 +56,7 @@ const LESSONS: LessonDef[] = [
   { slug: "bandits", eyebrow: "Lesson 1", meta: banditsMeta, sections: [section01, section02, section03, section04, section05, section06, section07, section08] },
   { slug: "markov-chains", eyebrow: "Prereq A · before Lesson 2", meta: markovMeta, sections: markovSections },
   { slug: "mdps", eyebrow: "Lesson 2", meta: mdpMeta, sections: mdpSections },
+  { slug: "contractions", eyebrow: "Prereq C · before Lesson 3", meta: contractionsMeta, sections: contractionsSections },
 ];
 
 const DEFAULT_SLUG = "bandits";

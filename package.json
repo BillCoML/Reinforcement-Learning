@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "simulate": "python3 scripts/simulate_bandits.py"
+    "simulate": "python3 scripts/simulate_bandits.py",
+    "markov-examples": "python3 scripts/markov_examples.py"
   },
   "dependencies": {
     "@fontsource/ibm-plex-serif": "^5.0.21",

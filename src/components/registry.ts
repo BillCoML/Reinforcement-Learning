@@ -12,5 +12,6 @@ import "./TwoExtremeFailure"; // V3
 import "./EpsilonGreedyExplorer"; // V4
 import "./UCBConfidenceBounds"; // V5
 import "./ThompsonPosteriorEvolution"; // V6
+import "./AlgorithmBattleArena"; // V7 (centerpiece)
 
 export {};

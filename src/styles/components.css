@@ -1,5 +1,17 @@
 /* Component-specific styling, imported after base.css. */
 
+/* custom elements are inline by default — make them block so panel width/margins resolve */
+bandit-machine,
+regret-decomposition,
+two-extreme-failure,
+epsilon-greedy-explorer,
+ucb-confidence-bounds,
+thompson-posterior-evolution,
+algorithm-battle-arena,
+roadmap-mini {
+  display: block;
+}
+
 /* forward-link future target marker */
 .future-target {
   font-family: var(--rl-font-ui);
@@ -183,4 +195,129 @@
 }
 .pick-reason .katex {
   font-size: 1em;
+}
+
+/* ---- V7 Battle Arena ---- */
+.arena-rail {
+  font-family: var(--rl-font-ui);
+  font-size: 12.5px;
+  color: var(--rl-ink-muted);
+}
+.arena-rail__title {
+  font-family: var(--rl-font-ui);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rl-ink-faint);
+  border-bottom: 1px solid var(--rl-border);
+  padding-bottom: 4px;
+  margin-bottom: 10px;
+}
+.arena-field {
+  display: block;
+  margin-bottom: 12px;
+}
+.arena-field__label {
+  display: block;
+  font-size: 11px;
+  color: var(--rl-ink-faint);
+  margin-bottom: 4px;
+}
+.arena-field select,
+.arena-field input[type="range"] {
+  width: 100%;
+}
+.arena-field select {
+  font-family: var(--rl-font-ui);
+  font-size: 12.5px;
+  padding: 3px 6px;
+  border: 1px solid var(--rl-border);
+  border-radius: 5px;
+  background: var(--rl-surface);
+  color: var(--rl-ink);
+}
+.arena-means {
+  margin-bottom: 12px;
+}
+.arena-mean-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 3px;
+}
+.arena-mean-row input[type="range"] {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.arena-mean-tag {
+  width: 12px;
+  font-size: 11px;
+  text-align: center;
+}
+.arena-mean-val {
+  width: 32px;
+  font-size: 11px;
+  text-align: right;
+  color: var(--rl-ink-muted);
+}
+.arena-algos {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.arena-algo-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+}
+.arena-custom-eps {
+  width: 100%;
+  margin: -1px 0 4px 22px;
+}
+.arena-subtitle {
+  font-family: var(--rl-font-ui);
+  font-size: 11px;
+  color: var(--rl-ink-faint);
+  margin: 14px 0 8px;
+}
+.arena-pulls {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.arena-pull-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.arena-pull-label {
+  flex: 0 0 110px;
+  font-family: var(--rl-font-ui);
+  font-size: 11.5px;
+  text-align: right;
+}
+.arena-pull-bar {
+  flex: 1 1 auto;
+  display: flex;
+  height: 16px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: var(--rl-surface-2);
+  min-width: 0;
+}
+.arena-pull-seg {
+  height: 100%;
+  transition: width 120ms linear;
+}
+.arena-pull-pct {
+  flex: 0 0 48px;
+  font-size: 11px;
+  color: var(--rl-ink-muted);
+  text-align: right;
+}
+@media (max-width: 900px) {
+  .rl-panel.arena .arena-rail {
+    font-size: 13px;
+  }
 }

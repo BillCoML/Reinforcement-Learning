@@ -278,7 +278,13 @@ body {
   max-width: var(--rl-panel-width);
 }
 .rl-panel.arena {
-  max-width: var(--rl-arena-width);
+  /* The arena is the only component allowed to break out of the prose column,
+     expanding to ~960px centered, via symmetric negative margins (stays in
+     normal flow — no transform, so screenshot/print bounding boxes are clean). */
+  max-width: none;
+  width: min(var(--rl-arena-width), calc(100vw - 48px));
+  margin-left: calc((var(--rl-prose-width) - min(var(--rl-arena-width), 100vw - 48px)) / 2);
+  margin-right: calc((var(--rl-prose-width) - min(var(--rl-arena-width), 100vw - 48px)) / 2);
 }
 .rl-panel__header {
   font-family: var(--rl-font-mono);

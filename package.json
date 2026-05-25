@@ -11,7 +11,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "simulate": "python3 scripts/simulate_bandits.py",
-    "markov-examples": "python3 scripts/markov_examples.py"
+    "markov-examples": "python3 scripts/markov_examples.py",
+    "mdp-gridworld": "python3 scripts/mdp_gridworld.py"
   },
   "dependencies": {
     "@fontsource/ibm-plex-serif": "^5.0.21",

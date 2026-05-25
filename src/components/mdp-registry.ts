@@ -5,11 +5,11 @@
  * components land across build steps 4–9.
  */
 
-// import "./GridworldRenderer"; // shared primitive — Step 4
-// import "./MDPEditor"; // shared primitive — Step 4
-// import "./MDPAnatomyExplorer"; // V1 — Step 5
-// import "./PolicyExplorer"; // V2 — Step 5
-// import "./ReturnComposer"; // V3 — Step 5
+// GridworldRenderer / MDPEditor are plain classes (no custom element); imported
+// directly by the components below, so they need no registry entry.
+import "./MDPAnatomyExplorer"; // V1
+import "./PolicyExplorer"; // V2
+import "./ReturnComposer"; // V3
 // import "./ValueHeatmap"; // V4 — Step 6
 // import "./QQuadrantsAndAdvantage"; // V5 — Step 6
 // import "./BellmanBackupLab"; // V6 centerpiece — Step 7

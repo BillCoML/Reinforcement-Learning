@@ -48,9 +48,11 @@ ${sidebar(
 )}
 
 <p>Here's the map. This lesson sits at the root; the four arrows are the threads above.
-The destination lessons aren't written yet — hover a node to see the connection.</p>
+Markov Chains (Prereq A) and Markov Decision Processes (Lesson 2) are built — click them to
+jump across; the rest aren't written yet, so hover a node to see the connection.</p>
 
-<roadmap-mini></roadmap-mini>`,
+<roadmap-mini active="bandits"></roadmap-mini>`,
+
     );
   },
 };

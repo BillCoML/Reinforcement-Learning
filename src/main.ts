@@ -156,4 +156,7 @@ function render(): void {
 }
 
 window.addEventListener("popstate", render);
+// In-prose / roadmap links navigate by setting location.hash (#slug); re-render
+// when it changes to a known lesson so cross-lesson links work without a full nav.
+window.addEventListener("hashchange", render);
 render();

@@ -10,6 +10,8 @@ export interface ForwardCalloutOptions {
   destination: string;
   /** Whether the target exists yet (false for all Lesson 1 forward links). */
   ready?: boolean;
+  /** Href for the link when ready (e.g. "#mdps"). Defaults to "#". */
+  href?: string;
   /** Body HTML (may contain KaTeX `$…$`). */
   html: string;
 }
@@ -17,7 +19,7 @@ export interface ForwardCalloutOptions {
 /** Forward link → future lesson. Returns an HTML string for inlining in prose. */
 export function forwardLink(opts: ForwardCalloutOptions): string {
   const marker = opts.ready
-    ? `<a href="#">${opts.destination}</a>`
+    ? `<a href="${opts.href ?? "#"}">${opts.destination}</a>`
     : `<span class="future-target" title="Not yet written">${opts.destination} · coming soon</span>`;
   return `<blockquote class="forward-link">
     <span class="label">Forward link → ${marker}</span>

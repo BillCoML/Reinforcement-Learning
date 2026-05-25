@@ -59,10 +59,13 @@ on top of it.</p>
 
 ${forwardLink({
   destination: "Lesson 2 — Markov Decision Processes",
+  ready: true,
+  href: "#mdps",
   html: `<p>The gridworld below is one policy away from a full MDP. Add a reward signal and a
   discount, ask for the policy that <em>maximizes</em> return, and the Bellman equations
-  arrive. Lesson 2 generalizes this preview into a full MDP explorer with values, rewards,
-  and Bellman backups — reusing this very transition-graph machinery.</p>`,
+  arrive. Lesson 2 builds this out — and its §6 shows precisely this $P^\\pi$ reappearing in
+  the matrix form $(I - \\gamma P^\\pi)V^\\pi = R^\\pi$ of policy evaluation. <em>Same matrix, two
+  uses.</em></p>`,
 })}
 
 <p>A 4×4 gridworld with a chosen policy. The induced $P^\\pi$ is a plain

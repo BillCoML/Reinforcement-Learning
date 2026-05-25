@@ -426,3 +426,47 @@ body {
     border: none;
   }
 }
+
+/* ---- Lesson navigation (curriculum-wide router strip) ---- */
+.lesson-nav {
+  max-width: var(--rl-prose-width);
+  margin: 0 auto;
+  padding: 20px 0 0;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-family: var(--rl-font-ui);
+  font-size: 13px;
+}
+
+.lesson-nav__link {
+  display: inline-block;
+  padding: 5px 12px;
+  border: 1px solid var(--rl-border);
+  border-radius: 999px;
+  color: var(--rl-ink-muted);
+  text-decoration: none;
+  transition: color 120ms, border-color 120ms, background 120ms;
+}
+
+.lesson-nav__link:hover {
+  color: var(--rl-ink);
+  border-color: var(--rl-ink-faint);
+}
+
+.lesson-nav__link.is-active {
+  color: var(--rl-ink);
+  border-color: var(--rl-rule);
+  background: var(--rl-surface-2);
+  font-weight: 600;
+}
+
+/* Placeholder note shown in scaffolded sections before prose lands. */
+.rl-scaffold-note {
+  font-family: var(--rl-font-ui);
+  font-size: 13px;
+  color: var(--rl-ink-faint);
+  font-style: italic;
+  border-left: 2px dashed var(--rl-border);
+  padding-left: 12px;
+}

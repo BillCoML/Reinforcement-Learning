@@ -1,0 +1,41 @@
+/*
+ * Markov Chains lesson tokens. Layered on top of tokens.css (which carries the
+ * curriculum-wide surface/ink/algorithm colors). These --mc-* variables are
+ * locked here for reuse in Lesson 2's MDP transition-graph drawing and beyond.
+ */
+:root {
+  /* State / node colors — categorical palette for individual states */
+  --mc-state-1: #2563eb; /* blue-600 */
+  --mc-state-2: #ea580c; /* orange-600 */
+  --mc-state-3: #16a34a; /* green-600 */
+  --mc-state-4: #9333ea; /* purple-600 */
+  --mc-state-5: #db2777; /* pink-600 */
+  --mc-state-6: #ca8a04; /* yellow-600 */
+  --mc-state-7: #0891b2; /* cyan-600 */
+  --mc-state-8: #4b5563; /* gray-600 */
+
+  /* Structural / role colors */
+  --mc-transient: #ea580c; /* orange — transient states */
+  --mc-recurrent: #2563eb; /* blue   — recurrent states */
+  --mc-absorbing: #1e3a8a; /* dark blue — absorbing states */
+  --mc-periodic: #b91c1c; /* red    — periodic class */
+
+  /* The stationary distribution gets the "good/convergent" green */
+  --mc-stationary: #15803d; /* green-700 — π */
+  --mc-current: #1c1e22; /* current state in animations */
+
+  /* Edge weights */
+  --mc-edge: #5a5d63;
+  --mc-edge-strong: #1c1e22;
+
+  /* Translucent tints for class background fills (V3) */
+  --mc-tint-1: rgba(37, 99, 235, 0.12);
+  --mc-tint-2: rgba(234, 88, 12, 0.12);
+  --mc-tint-3: rgba(22, 163, 74, 0.12);
+  --mc-tint-4: rgba(147, 51, 234, 0.12);
+
+  /* Semantic weather colors for V1 (this one example only) */
+  --mc-sunny: #ca8a04;
+  --mc-cloudy: #6b7280;
+  --mc-rainy: #2563eb;
+}

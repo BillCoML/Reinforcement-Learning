@@ -19,6 +19,8 @@ export interface LessonMeta {
   tier: number;
   difficulty: number; // out of 5
   estimatedReadMinutes: number;
+  /** Curricular role — e.g. "prereq" for lessons off the main critical path. */
+  role?: string;
   prerequisites: Prerequisite[];
   exportedAnchors: string[];
   centerpieceComponent: string;

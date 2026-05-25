@@ -140,7 +140,8 @@ export class TransitionGraph {
         { x: cx + dx, y: cy },
       ];
     }
-    const R = Math.min(this.W, this.H) * 0.33;
+    // Inset enough that outward self-loops + their labels stay inside the viewBox.
+    const R = Math.min(this.W, this.H) * 0.3;
     const pts: Pt[] = [];
     for (let i = 0; i < K; i++) {
       const a = -Math.PI / 2 + (i * 2 * Math.PI) / K;

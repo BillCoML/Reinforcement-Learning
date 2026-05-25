@@ -4,6 +4,8 @@
  * importing it here runs that side effect. Populated across build steps 4–7.
  */
 
-// Shared primitives + visualizations are added here as they are implemented.
+import "./WeatherChainExplorer"; // V1
+import "./PowerOfPAnimator"; // V2
+import "./StateClassificationInspector"; // V3
 
 export {};

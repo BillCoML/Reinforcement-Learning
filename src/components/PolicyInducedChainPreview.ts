@@ -138,6 +138,7 @@ export class PolicyInducedChainPreview extends HTMLElement {
 
     c.append("policy ");
     const sel = document.createElement("select");
+    sel.setAttribute("aria-label", "policy");
     for (const [v, label] of [
       ["uniform", "uniform random"],
       ["right", "go-right-biased"],

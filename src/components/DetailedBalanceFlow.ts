@@ -65,6 +65,7 @@ export class DetailedBalanceFlow extends HTMLElement {
 
     c.append("preset ");
     const sel = document.createElement("select");
+    sel.setAttribute("aria-label", "preset chain");
     for (const p of [birthDeath, asymmetric]) {
       const o = document.createElement("option");
       o.value = p.key;

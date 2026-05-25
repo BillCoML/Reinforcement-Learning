@@ -111,6 +111,7 @@ export class PowerOfPAnimator extends HTMLElement {
     this.startWrap.style.marginTop = "8px";
     this.startWrap.append("start i ");
     const sel = document.createElement("select");
+    sel.setAttribute("aria-label", "start state i");
     for (let i = 0; i < this.K; i++) {
       const o = document.createElement("option");
       o.value = String(i);

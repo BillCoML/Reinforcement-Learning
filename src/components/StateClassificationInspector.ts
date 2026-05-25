@@ -70,6 +70,7 @@ export class StateClassificationInspector extends HTMLElement {
     bar.style.marginBottom = "12px";
     bar.append("Load preset ");
     const sel = document.createElement("select");
+    sel.setAttribute("aria-label", "load preset chain");
     const presets = [
       { key: "weather", label: "weather (irreducible, aperiodic)", P: weather.P },
       { key: "periodic", label: "periodic (period 2)", P: periodic2.P },

@@ -194,6 +194,7 @@ export class ConvergenceLab extends HTMLElement {
     selBar.className = "rl-controls";
     selBar.style.marginBottom = "8px";
     const sel = document.createElement("select");
+    sel.setAttribute("aria-label", "select chain");
     for (const preset of CONVERGENCE_LAB_PRESETS) {
       const o = document.createElement("option");
       o.value = preset.key;
@@ -305,6 +306,7 @@ export class ConvergenceLab extends HTMLElement {
     this.slider.max = String(MAXT);
     this.slider.step = "1";
     this.slider.value = "0";
+    this.slider.setAttribute("aria-label", "step t");
     this.slider.addEventListener("input", () => {
       this.stop();
       this.store.set({ currentStep: +this.slider.value, playing: false });

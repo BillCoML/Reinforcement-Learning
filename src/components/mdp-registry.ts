@@ -10,8 +10,8 @@
 import "./MDPAnatomyExplorer"; // V1
 import "./PolicyExplorer"; // V2
 import "./ReturnComposer"; // V3
-// import "./ValueHeatmap"; // V4 — Step 6
-// import "./QQuadrantsAndAdvantage"; // V5 — Step 6
+import "./ValueHeatmap"; // V4
+import "./QQuadrantsAndAdvantage"; // V5
 // import "./BellmanBackupLab"; // V6 centerpiece — Step 7
 // import "./OptimalityExplorer"; // V7 — Step 8
 

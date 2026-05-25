@@ -85,12 +85,14 @@ export class GridworldRenderer {
   private cells: CellRefs[] = [];
   private props: GridworldProps;
   private cell: number;
+  private size: number;
 
   constructor(container: HTMLElement, props: GridworldProps) {
     this.props = props;
     this.cell = props.cellPx ?? 92;
     const inner = GRID_SIZE * this.cell + (GRID_SIZE - 1) * GAP;
     const size = inner + 2 * PAD;
+    this.size = size;
 
     const wrap = document.createElement("div");
     wrap.className = "chart-wrap";
@@ -416,6 +418,16 @@ export class GridworldRenderer {
       : "color-mix(in srgb, var(--mdp-reward-neg) 22%, var(--rl-surface))";
   }
 
+  /** Which action-quadrant the cursor sits in, from its offset to the cell center. */
+  private quadrantAt(ev: MouseEvent, s: number): number {
+    const rect = (this.svg.node() as SVGSVGElement).getBoundingClientRect();
+    const ratio = this.size / rect.width;
+    const dx = (ev.clientX - rect.left) * ratio - this.cells[s].cx;
+    const dy = (ev.clientY - rect.top) * ratio - this.cells[s].cy;
+    if (Math.abs(dy) >= Math.abs(dx)) return dy < 0 ? 0 : 2; // Up / Down
+    return dx > 0 ? 1 : 3; // Right / Left
+  }
+
   private showTip(ev: MouseEvent, s: number): void {
     const p = this.props;
     const mdp = p.mdp;
@@ -423,6 +435,16 @@ export class GridworldRenderer {
     let html = `<strong>state (${r},${c})</strong>`;
     if (mdp.terminals[s]) {
       html += `<br>terminal · V = 0`;
+    } else if (p.showQuadrants && p.qValues) {
+      // per-quadrant detail: the action under the cursor
+      const a = this.quadrantAt(ev, s);
+      const label = p.advantageMode ? "A" : "Q";
+      html += `<br><strong style="color:var(--rl-ink)">${ACTION_NAMES[a]}</strong> · ${label}(s,a) = ${p.qValues[s][a].toFixed(3)}`;
+      const dist = mdp.P[s][a]
+        .map((pr, sp) => (pr > 0 ? `(${rc(sp).r},${rc(sp).c}) ${pr.toFixed(2)}` : null))
+        .filter(Boolean)
+        .join(", ");
+      html += `<br><span style="color:var(--rl-ink-faint)">→ ${dist}</span>`;
     } else {
       if (p.valueFn) html += `<br>V = ${fmtV(p.valueFn[s])}`;
       if (p.qValues) {

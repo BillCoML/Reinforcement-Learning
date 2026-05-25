@@ -1,0 +1,31 @@
+{
+  "name": "rl-lesson-bandits",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "RL Curriculum — Lesson 1: Multi-Armed Bandits",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "simulate": "python3 scripts/simulate_bandits.py"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-serif": "^5.0.21",
+    "@fontsource/inter": "^5.0.18",
+    "@fontsource/jetbrains-mono": "^5.0.20",
+    "d3": "^7.9.0",
+    "katex": "^0.16.11",
+    "ml-matrix": "^6.11.1"
+  },
+  "devDependencies": {
+    "@types/d3": "^7.4.3",
+    "@types/katex": "^0.16.7",
+    "jsdom": "^24.1.1",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.2",
+    "vitest": "^2.0.5"
+  }
+}

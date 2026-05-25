@@ -29,6 +29,15 @@ const SOURCE: Node = {
   y: H / 2,
 };
 
+// A prereq that lands before Lesson 2. Not a forward link *from* Bandits — it's
+// the substrate Lesson 2 is built on — so no arrow points to it from the source;
+// instead a dashed arrow points from it into MDPs. Grayed like the future nodes.
+const MARKOV: Node = {
+  id: "markov-chains", lesson: "Prereq A", title: "Markov Chains",
+  connection: "The substrate Lesson 2 is built on: a policy turns an MDP into a Markov chain on states.",
+  x: 345, y: 40,
+};
+
 const TARGETS: Node[] = [
   {
     id: "mdps", lesson: "Lesson 2", title: "Markov Decision Processes",
@@ -103,15 +112,33 @@ export class RoadmapMini extends HTMLElement {
         .attr("stroke-dasharray", "4 3").attr("marker-end", "url(#rm-arrow)").attr("opacity", 0.7);
     }
 
+    // prereq → MDPs arrow (Markov Chains feeds Lesson 2; not a Bandits forward link)
+    {
+      const mdps = TARGETS[0];
+      const path = d3.path();
+      const x0 = MARKOV.x + 64;
+      const y0 = MARKOV.y;
+      const x1 = mdps.x - 64;
+      const y1 = mdps.y;
+      const mx = (x0 + x1) / 2;
+      path.moveTo(x0, y0);
+      path.bezierCurveTo(mx, y0, mx, y1, x1, y1);
+      svg.append("path").attr("d", path.toString()).attr("fill", "none")
+        .attr("stroke", "var(--rl-ink-faint)").attr("stroke-width", 1.4)
+        .attr("stroke-dasharray", "4 3").attr("marker-end", "url(#rm-arrow)").attr("opacity", 0.7);
+    }
+
     // source node (highlighted)
     this.drawNode(svg, SOURCE, true, tip);
+    // the Markov Chains prereq (grayed — current lesson, not a forward link)
+    this.drawNode(svg, MARKOV, false, tip);
     // target nodes (grayed, future)
     for (const t of TARGETS) this.drawNode(svg, t, false, tip);
 
     // caption
     svg.append("text").attr("x", W / 2).attr("y", H - 6).attr("text-anchor", "middle")
       .attr("class", "annot").attr("fill", "var(--rl-ink-faint)")
-      .text("future lessons — hover for the connection (not yet written)");
+      .text("Prereq A is built; future lessons — hover for the connection");
   }
 
   private drawNode(

@@ -1,0 +1,197 @@
+/*
+ * Styles for the MDP-lesson interactive components. Kept separate from the
+ * Bandits/Markov component stylesheets so the lessons stay decoupled.
+ */
+
+/* ---- scaffolding placeholder (removed as sections are filled in) ---- */
+.scaffold-note {
+  font-family: var(--rl-font-ui);
+  font-size: 13px;
+  color: var(--rl-ink-faint);
+  font-style: italic;
+  border-left: 2px solid var(--rl-border);
+  padding-left: 12px;
+  margin: 12px 0;
+}
+
+/* ---- shared layout helpers ---- */
+.mdp-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.mdp-col {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+
+.mdp-readout {
+  font-family: var(--rl-font-ui);
+  font-size: 13px;
+  color: var(--rl-ink-muted);
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+.mdp-stat {
+  font-family: var(--rl-font-mono);
+  color: var(--rl-ink);
+}
+
+/* ---- gridworld svg ---- */
+.mdp-grid {
+  display: block;
+}
+
+.mdp-cell-label {
+  font-family: var(--rl-font-mono);
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.mdp-cell-rect {
+  transition:
+    fill 160ms ease,
+    stroke 120ms ease;
+}
+
+/* ---- controls ---- */
+.mdp-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  align-items: center;
+  margin: 10px 0;
+  font-family: var(--rl-font-ui);
+  font-size: 13px;
+}
+
+.mdp-controls label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--rl-ink-muted);
+}
+
+.mdp-controls select,
+.mdp-controls button {
+  font-family: var(--rl-font-ui);
+  font-size: 13px;
+  padding: 4px 9px;
+  border: 1px solid var(--rl-border);
+  border-radius: 6px;
+  background: var(--rl-surface);
+  color: var(--rl-ink);
+  cursor: pointer;
+}
+
+.mdp-controls button:hover {
+  background: var(--rl-surface-2);
+}
+
+.mdp-controls button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.mdp-seg {
+  display: inline-flex;
+  border: 1px solid var(--rl-border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.mdp-seg button {
+  border: none;
+  border-radius: 0;
+  background: var(--rl-surface);
+}
+
+.mdp-seg button.is-active {
+  background: var(--rl-ucb-tint);
+  color: var(--rl-algo-ucb);
+  font-weight: 600;
+}
+
+/* ---- action legend ---- */
+.mdp-legend {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-family: var(--rl-font-ui);
+  font-size: 12px;
+  color: var(--rl-ink-muted);
+  margin-top: 8px;
+}
+
+.mdp-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.mdp-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+/* ---- centerpiece (Bellman Backup Lab) ---- */
+.mdp-lab-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.mdp-lab-panel {
+  border: 1px solid var(--rl-border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  background: var(--rl-surface);
+  min-width: 0;
+}
+
+.mdp-lab-panel__title {
+  font-family: var(--rl-font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--rl-ink);
+  margin: 0 0 8px;
+}
+
+.mdp-lab-panel__title small {
+  font-weight: 400;
+  color: var(--rl-ink-faint);
+}
+
+.mdp-backup-row {
+  font-family: var(--rl-font-mono);
+  font-size: 12px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 10px;
+  align-items: baseline;
+}
+
+@media (max-width: 920px) {
+  .mdp-lab-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* MDP interactive custom elements are block-level (default is inline). */
+mdp-anatomy-explorer,
+policy-explorer,
+return-composer,
+value-heatmap,
+q-quadrants-advantage,
+bellman-backup-lab,
+optimality-explorer,
+gridworld-renderer,
+mdp-editor {
+  display: block;
+}

@@ -1,0 +1,29 @@
+/*
+ * MDP lesson tokens. Layered on top of tokens.css. These --mdp-* variables are
+ * locked here and reused curriculum-wide from Lesson 3 onward (value heatmaps,
+ * policy arrows, Bellman-backup highlights).
+ */
+:root {
+  /* Value-function heatmap palette: diverging green ↔ red around 0. */
+  --mdp-value-pos: #15803d; /* green-700, high value */
+  --mdp-value-zero: #f1ede4; /* neutral, ≈ surface-2 */
+  --mdp-value-neg: #b91c1c; /* red-700, negative value */
+
+  /* Reward semantics. */
+  --mdp-reward-pos: #15803d; /* goal / positive reward */
+  --mdp-reward-neg: #b91c1c; /* pit / negative reward */
+  --mdp-terminal: #1c1e22; /* terminal-state border */
+
+  /* Policy arrows — one color per action, reused across V2, V5, V6, V7. */
+  --mdp-action-up: #2563eb;
+  --mdp-action-right: #ea580c;
+  --mdp-action-down: #16a34a;
+  --mdp-action-left: #9333ea;
+
+  /* Bellman backup highlights. */
+  --mdp-backup-source: #d97706; /* state being backed up */
+  --mdp-backup-input: #0891b2; /* states feeding into the backup */
+
+  /* Gridworld geometry. */
+  --mdp-cell-radius: 4px;
+}

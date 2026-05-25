@@ -63,7 +63,7 @@ function buildMasthead(): HTMLElement {
       <span class="meta-dot">·</span>
       <span class="rl-mono">~${m.estimatedReadMinutes} min</span>
       <span class="meta-dot">·</span>
-      <span style="color:var(--rl-ink-faint)">prereqs:</span>
+      <span style="color:var(--rl-ink-muted)">prereqs:</span>
       ${prereqs}
     </div>`;
   return header;

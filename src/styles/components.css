@@ -15,7 +15,7 @@ roadmap-mini {
 /* forward-link future target marker */
 .future-target {
   font-family: var(--rl-font-ui);
-  color: var(--rl-ink-faint);
+  color: var(--rl-ink-muted);
   font-style: italic;
 }
 
@@ -82,7 +82,7 @@ roadmap-mini {
   color: var(--rl-ink);
 }
 .bandit-arm .running-mean .sub {
-  color: var(--rl-ink-faint);
+  color: var(--rl-ink-muted);
   font-size: 11px;
 }
 .bandit-arm .truth-badge {
@@ -112,7 +112,7 @@ roadmap-mini {
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--rl-ink-faint);
+  color: var(--rl-ink-muted);
   margin-bottom: 6px;
 }
 .bandit-log .log-row {
@@ -153,7 +153,7 @@ roadmap-mini {
   border-bottom: 1px dotted var(--rl-border);
 }
 .stats-readout .row .k {
-  color: var(--rl-ink-faint);
+  color: var(--rl-ink-muted);
 }
 .stats-readout .swatch {
   display: inline-block;
@@ -208,7 +208,7 @@ roadmap-mini {
   font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--rl-ink-faint);
+  color: var(--rl-ink-muted);
   border-bottom: 1px solid var(--rl-border);
   padding-bottom: 4px;
   margin-bottom: 10px;
@@ -220,7 +220,7 @@ roadmap-mini {
 .arena-field__label {
   display: block;
   font-size: 11px;
-  color: var(--rl-ink-faint);
+  color: var(--rl-ink-muted);
   margin-bottom: 4px;
 }
 .arena-field select,
@@ -278,7 +278,7 @@ roadmap-mini {
 .arena-subtitle {
   font-family: var(--rl-font-ui);
   font-size: 11px;
-  color: var(--rl-ink-faint);
+  color: var(--rl-ink-muted);
   margin: 14px 0 8px;
 }
 .arena-pulls {
@@ -320,4 +320,32 @@ roadmap-mini {
   .rl-panel.arena .arena-rail {
     font-size: 13px;
   }
+}
+
+/* V1 explicit pull button */
+.arm-pull-btn {
+  font-family: var(--rl-font-ui);
+  font-size: 12px;
+  padding: 4px 14px;
+  border: 1px solid var(--rl-algo-ucb);
+  background: var(--rl-surface);
+  color: var(--rl-algo-ucb);
+  border-radius: 5px;
+  cursor: pointer;
+  min-height: 28px;
+}
+.arm-pull-btn:hover {
+  background: var(--rl-ucb-tint);
+}
+.arm-pull-btn:focus-visible {
+  outline: 2px solid var(--rl-algo-ucb);
+  outline-offset: 1px;
+}
+
+/* enlarge range hit targets to meet 24px touch-target guidance */
+input[type="range"] {
+  height: 24px;
+}
+.arena-mean-row {
+  margin-bottom: 6px;
 }

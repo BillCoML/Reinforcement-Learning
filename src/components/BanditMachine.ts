@@ -60,9 +60,6 @@ export class BanditMachine extends HTMLElement {
     for (let i = 0; i < this.means.length; i++) {
       const card = document.createElement("div");
       card.className = "bandit-arm";
-      card.tabIndex = 0;
-      card.setAttribute("role", "button");
-      card.setAttribute("aria-label", `Pull arm ${i + 1}`);
 
       const name = document.createElement("div");
       name.className = "arm-name";
@@ -78,14 +75,19 @@ export class BanditMachine extends HTMLElement {
       badge.className = "truth-badge";
       this.badgeEls[i] = badge;
 
-      card.append(name, lever, mean, badge);
+      // Explicit, keyboard-focusable control with a clear accessible name.
+      const pullBtn = document.createElement("button");
+      pullBtn.className = "arm-pull-btn";
+      pullBtn.textContent = "Pull";
+      pullBtn.setAttribute("aria-label", `Pull arm ${i + 1}`);
+
+      card.append(name, lever, mean, badge, pullBtn);
       const pull = () => this.pull(i);
+      // The whole card is a convenient mouse target; the button drives keyboard/AT.
       card.addEventListener("click", pull);
-      card.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          pull();
-        }
+      pullBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        pull();
       });
 
       this.armEls[i] = card;
@@ -125,7 +127,7 @@ export class BanditMachine extends HTMLElement {
     });
 
     const hint = document.createElement("span");
-    hint.style.color = "var(--rl-ink-faint)";
+    hint.style.color = "var(--rl-ink-muted)";
     hint.textContent = "click a lever (or press Enter) to pull";
 
     controls.append(revealBtn, resetBtn, hint);
@@ -273,7 +275,7 @@ export class BanditMachine extends HTMLElement {
 
   private updateLog(): void {
     if (this.log.length === 0) {
-      this.logEl.innerHTML = `<div class="log-row" style="opacity:.5">— no pulls yet —</div>`;
+      this.logEl.innerHTML = `<div class="log-row">— no pulls yet —</div>`;
       return;
     }
     this.logEl.innerHTML = this.log

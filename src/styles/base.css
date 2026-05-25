@@ -60,7 +60,7 @@ body {
   font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--rl-ink-faint);
+  color: var(--rl-ink-muted);
   margin: 0 0 12px;
 }
 
@@ -104,7 +104,7 @@ body {
 }
 
 .prereq-strip .meta-dot {
-  color: var(--rl-ink-faint);
+  color: var(--rl-ink-muted);
 }
 
 /* ---- Headings ---- */
@@ -181,7 +181,7 @@ body {
   font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--rl-ink-faint);
+  color: var(--rl-ink-muted);
   display: block;
   margin-bottom: 6px;
 }
@@ -217,7 +217,7 @@ body {
 .lesson-section table caption {
   font-family: var(--rl-font-ui);
   font-size: 12px;
-  color: var(--rl-ink-faint);
+  color: var(--rl-ink-muted);
   text-align: left;
   margin-bottom: 6px;
 }
@@ -257,7 +257,7 @@ body {
   font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--rl-ink-faint);
+  color: var(--rl-ink-muted);
   margin-bottom: 8px;
 }
 
@@ -289,7 +289,7 @@ body {
 .rl-panel__header {
   font-family: var(--rl-font-mono);
   font-size: 12px;
-  color: var(--rl-ink-faint);
+  color: var(--rl-ink-muted);
   padding: 9px 14px;
   border-bottom: 1px solid var(--rl-border);
   background: var(--rl-surface-2);
@@ -301,8 +301,7 @@ body {
 }
 .rl-panel__header .panel-id::before {
   content: "panel: ";
-  color: var(--rl-ink-faint);
-  opacity: 0.7;
+  color: var(--rl-ink-muted);
 }
 .rl-panel__body {
   padding: 16px;

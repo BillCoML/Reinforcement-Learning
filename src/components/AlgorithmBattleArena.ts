@@ -302,6 +302,7 @@ export class AlgorithmBattleArena extends HTMLElement {
         epsR.type = "range"; epsR.min = "0"; epsR.max = "0.5"; epsR.step = "0.01";
         epsR.value = String(this.customEps);
         epsR.className = "arena-custom-eps";
+        epsR.setAttribute("aria-label", "custom ε value");
         epsR.addEventListener("input", () => {
           this.customEps = +epsR.value;
           if (this.enabled.custom) this.resetSim();
@@ -342,6 +343,7 @@ export class AlgorithmBattleArena extends HTMLElement {
       const r = document.createElement("input");
       r.type = "range"; r.min = "0.02"; r.max = "0.98"; r.step = "0.01";
       r.value = String(this.means[i]);
+      r.setAttribute("aria-label", `arm ${i + 1} mean`);
       const v = document.createElement("span");
       v.className = "rl-mono arena-mean-val";
       v.textContent = this.means[i].toFixed(2);
@@ -627,7 +629,6 @@ export class AlgorithmBattleArena extends HTMLElement {
     if (!withPulls.length) {
       const note = document.createElement("div");
       note.className = "arena-subtitle";
-      note.style.opacity = "0.6";
       note.textContent = this.usingOffline
         ? "(run the live simulation to see pull distributions)"
         : "";

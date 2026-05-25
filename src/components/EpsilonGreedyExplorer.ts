@@ -105,7 +105,7 @@ export class EpsilonGreedyExplorer extends HTMLElement {
     tlLabel.className = "axis-label";
     tlLabel.style.fontFamily = "var(--rl-font-ui)";
     tlLabel.style.fontSize = "11px";
-    tlLabel.style.color = "var(--rl-ink-faint)";
+    tlLabel.style.color = "var(--rl-ink-muted)";
     tlLabel.style.margin = "10px 0 4px";
     tlLabel.textContent = "recent pulls (newest →)";
 

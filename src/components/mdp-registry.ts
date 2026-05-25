@@ -13,6 +13,6 @@ import "./ReturnComposer"; // V3
 import "./ValueHeatmap"; // V4
 import "./QQuadrantsAndAdvantage"; // V5
 import "./BellmanBackupLab"; // V6 centerpiece
-// import "./OptimalityExplorer"; // V7 — Step 8
+import "./OptimalityExplorer"; // V7
 
 export {};

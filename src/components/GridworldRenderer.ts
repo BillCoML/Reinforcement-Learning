@@ -48,6 +48,8 @@ export interface GridworldProps {
   highlightInputs?: number[];
   /** Marks the start cell with a small tag. */
   startState?: number | null;
+  /** Per-state corner badge text (e.g. optimal-action count); null = none. */
+  badges?: (string | null)[];
   colorScale?: (v: number) => string;
   cellPx?: number;
   onCellClick?: (s: number) => void;
@@ -73,6 +75,7 @@ interface CellRefs {
   ring: d3.Selection<SVGRectElement, unknown, null, undefined>;
   glyph: d3.Selection<SVGTextElement, unknown, null, undefined>;
   tag: d3.Selection<SVGTextElement, unknown, null, undefined>;
+  badge: d3.Selection<SVGGElement, unknown, null, undefined>;
   cx: number;
   cy: number;
   x: number;
@@ -264,6 +267,27 @@ export class GridworldRenderer {
         .attr("display", "none")
         .style("pointer-events", "none");
 
+      // optimal-action-count badge (bottom-left corner), hidden by default
+      const badge = g.append("g").attr("display", "none");
+      badge
+        .append("rect")
+        .attr("x", x + 5)
+        .attr("y", y + c - 21)
+        .attr("width", 16)
+        .attr("height", 16)
+        .attr("rx", 5)
+        .attr("fill", "var(--mdp-backup-source)");
+      badge
+        .append("text")
+        .attr("x", x + 13)
+        .attr("y", y + c - 13)
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "central")
+        .attr("fill", "#fff")
+        .style("font-family", "var(--rl-font-mono)")
+        .style("font-size", "10px")
+        .style("font-weight", "600");
+
       // hit area on top for hover/click
       g
         .append("rect")
@@ -280,7 +304,7 @@ export class GridworldRenderer {
           this.props.onCellHover?.(null);
         });
 
-      this.cells.push({ bg, quads, quadLabels, vLabel, arrows, ring, glyph, tag, cx, cy, x, y });
+      this.cells.push({ bg, quads, quadLabels, vLabel, arrows, ring, glyph, tag, badge, cx, cy, x, y });
     }
   }
 
@@ -373,6 +397,15 @@ export class GridworldRenderer {
       // --- start tag ---
       if (p.startState === s) cell.tag.attr("display", null).text("start");
       else cell.tag.attr("display", "none");
+
+      // --- corner badge ---
+      const badgeText = p.badges?.[s] ?? null;
+      if (badgeText != null && !terminal) {
+        cell.badge.attr("display", null);
+        cell.badge.select("text").text(badgeText);
+      } else {
+        cell.badge.attr("display", "none");
+      }
 
       // --- arrows ---
       const showArrows =

@@ -12,6 +12,7 @@ import "@fontsource/jetbrains-mono/500.css";
 import "katex/dist/katex.min.css";
 import "./styles/tokens.css";
 import "./styles/base.css";
+import "./styles/components.css";
 
 import { lessonMeta } from "./lesson/meta";
 import type { Section } from "./lesson/section";

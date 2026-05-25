@@ -6,4 +6,8 @@
  */
 
 // Components are added here as they are implemented (Steps 4–7).
+import "./BanditMachine"; // V1
+import "./RegretDecomposition"; // V2
+import "./TwoExtremeFailure"; // V3
+
 export {};

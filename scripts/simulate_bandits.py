@@ -29,7 +29,9 @@ T = 5000
 # and smooths the shipped curve. All other algorithms are already stable at 200.
 SEEDS = 1000
 
-ALGOS = ["random", "eps01", "eps001", "ucb1", "thompson"]
+# "greedy" is pure exploitation (ε=0) — included so V3 can show its linear
+# failure curve. It is NOT one of the §7 Battle Arena algorithms.
+ALGOS = ["random", "greedy", "eps01", "eps001", "ucb1", "thompson"]
 OUT_DIR = os.path.join(os.path.dirname(__file__), "..", "public", "data", "bandits")
 
 
@@ -44,14 +46,14 @@ def simulate(algo: str, mus, T: int, rng: np.random.Generator):
     mu_star = max(mus)
     gaps = np.array([mu_star - m for m in mus])
 
-    eps = 0.1 if algo == "eps01" else 0.01
+    eps = {"eps01": 0.1, "eps001": 0.01, "greedy": 0.0}.get(algo, 0.0)
     curve = np.empty(T)
     regret = 0.0
 
     for t in range(T):
         if algo == "random":
             a = int(rng.integers(K))
-        elif algo in ("eps01", "eps001"):
+        elif algo in ("eps01", "eps001", "greedy"):
             if t < K:
                 a = t  # initialize: pull each arm once
             elif rng.random() < eps:

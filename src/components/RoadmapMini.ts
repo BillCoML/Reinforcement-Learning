@@ -30,22 +30,23 @@ interface Layout {
 }
 
 // Lessons that have actually shipped (solid, navigable).
-const BUILT = new Set(["bandits", "markov-chains", "mdps"]);
+const BUILT = new Set(["bandits", "markov-chains", "mdps", "contractions"]);
 
 function banditsLayout(): Layout {
-  const H = 288;
+  const H = 320;
   return {
-    W: 720,
+    W: 760,
     H,
     source: { id: "bandits", lesson: "Lesson 1", title: "Multi-Armed Bandits", connection: "You are here.", x: 120, y: H / 2 },
     prereqs: [
-      { id: "markov-chains", lesson: "Prereq A", title: "Markov Chains", connection: "The substrate Lesson 2 is built on: a policy turns an MDP into a Markov chain on states.", x: 345, y: 40, exists: true },
+      { id: "markov-chains", lesson: "Prereq A", title: "Markov Chains", connection: "The substrate Lesson 2 is built on: a policy turns an MDP into a Markov chain on states.", x: 360, y: 40, exists: true },
+      { id: "contractions", lesson: "Prereq C", title: "Contractions & Banach", connection: "The theorem that makes value iteration converge — a prereq for Lesson 3 (DP), not Lesson 1.", x: 360, y: 100, exists: true },
     ],
     targets: [
-      { id: "mdps", lesson: "Lesson 2", title: "Markov Decision Processes", connection: "A bandit is a one-state MDP — Bellman equations collapse to trivial identities.", x: 560, y: 52, exists: true },
-      { id: "dqn", lesson: "Lesson 7", title: "Deep Q-Networks", connection: "ε-greedy is the portable workhorse exploration strategy in deep RL.", x: 560, y: 120 },
-      { id: "inference", lesson: "Lesson 11", title: "RL as Inference", connection: "Thompson's 'act as if your beliefs were true' becomes the whole optimal-policy derivation.", x: 560, y: 188 },
-      { id: "rlhf", lesson: "Lesson 17", title: "RLHF & Preference Models", connection: "Preference bandits — each pull is a pairwise comparison (Bradley–Terry).", x: 560, y: 240 },
+      { id: "mdps", lesson: "Lesson 2", title: "Markov Decision Processes", connection: "A bandit is a one-state MDP — Bellman equations collapse to trivial identities.", x: 590, y: 60, exists: true },
+      { id: "dqn", lesson: "Lesson 7", title: "Deep Q-Networks", connection: "ε-greedy is the portable workhorse exploration strategy in deep RL.", x: 590, y: 140 },
+      { id: "inference", lesson: "Lesson 11", title: "RL as Inference", connection: "Thompson's 'act as if your beliefs were true' becomes the whole optimal-policy derivation.", x: 590, y: 210 },
+      { id: "rlhf", lesson: "Lesson 17", title: "RLHF & Preference Models", connection: "Preference bandits — each pull is a pairwise comparison (Bradley–Terry).", x: 590, y: 272 },
     ],
     caption: "Built lessons are solid; future lessons are gray — hover for the connection",
   };
@@ -62,6 +63,7 @@ function mdpLayout(): Layout {
     prereqs: [
       { id: "bandits", lesson: "Lesson 1", title: "Multi-Armed Bandits", connection: "A bandit is the one-state MDP; ε-greedy exploration carries forward.", x: 70, y: H / 2 - 52, exists: true },
       { id: "markov-chains", lesson: "Prereq A", title: "Markov Chains", connection: "Fix a policy and the MDP becomes the chain P^π — same matrix, now controlled.", x: 70, y: H / 2 + 52, exists: true },
+      { id: "contractions", lesson: "Prereq C", title: "Contractions & Banach", connection: "The Banach theorem proves value iteration converges — a prereq between Lesson 2 and Lesson 3.", x: 70, y: H / 2 - 108, exists: true },
     ],
     targets: [
       { id: "dynamic-programming", lesson: "Lesson 3", title: "Dynamic Programming", connection: "Policy iteration & value iteration iterate §6's operators when the model is known.", x: tx, y: ys[0] },
@@ -76,6 +78,43 @@ function mdpLayout(): Layout {
   };
 }
 
+function contractionsLayout(): Layout {
+  const H = 280;
+  const tx = 580;
+  const ys = [32, 80, 128, 176, 224];
+  return {
+    W: 760,
+    H,
+    source: { id: "contractions", lesson: "Prereq C", title: "Contractions & Banach", connection: "You are here. The single theorem that powers all of dynamic programming.", x: 180, y: H / 2, exists: true },
+    prereqs: [
+      { id: "mdps", lesson: "Lesson 2", title: "Markov Decision Processes", connection: "The Bellman operators T^π and T^* are introduced here — this prereq proves they're contractions.", x: 55, y: H / 2, exists: true },
+    ],
+    targets: [
+      { id: "dynamic-programming", lesson: "Lesson 3", title: "Dynamic Programming", connection: "Value iteration is Banach iteration on T^*. The stopping criterion is the a posteriori bound with c = γ.", x: tx, y: ys[0] },
+      { id: "td-learning", lesson: "Lesson 5", title: "TD Learning", connection: "Stochastic Bellman backups are contractions in expectation — the Robbins-Monro theorem takes over.", x: tx, y: ys[1] },
+      { id: "function-approx", lesson: "Lesson 6", title: "Function Approximation", connection: "The deadly triad: projection + bootstrapping + off-policy breaks the contraction property.", x: tx, y: ys[2] },
+      { id: "trust-region", lesson: "Lesson 9", title: "Trust Region (TRPO/PPO)", connection: "Fixed-point iteration intuition: iterate until convergence, bound per-step movement.", x: tx, y: ys[3] },
+      { id: "inference-rl", lesson: "Lesson 11", title: "RL as Inference", connection: "The soft Bellman operator is also a γ-contraction — same theorem, entropy-augmented reward.", x: tx, y: ys[4] },
+    ],
+    caption: "Prereq C links Lesson 2 (MDPs) to Lesson 3 (DP) and cashes in across the curriculum",
+  };
+}
+
+function markovLayout(): Layout {
+  const H = 240;
+  return {
+    W: 720,
+    H,
+    source: { id: "markov-chains", lesson: "Prereq A", title: "Markov Chains", connection: "You are here.", x: 120, y: H / 2 },
+    prereqs: [],
+    targets: [
+      { id: "mdps", lesson: "Lesson 2", title: "Markov Decision Processes", connection: "Fix a policy and the MDP collapses to a Markov chain on states — the same P^π matrix.", x: 420, y: H / 2 - 44, exists: true },
+      { id: "contractions", lesson: "Prereq C", title: "Contractions & Banach", connection: "The contraction proof uses row-stochastic P^π — its properties come from Markov chain theory.", x: 420, y: H / 2 + 44, exists: true },
+    ],
+    caption: "Prereq A feeds into Lesson 2 and the contraction proofs in Prereq C",
+  };
+}
+
 export class RoadmapMini extends HTMLElement {
   connectedCallback(): void {
     this.render();
@@ -84,7 +123,11 @@ export class RoadmapMini extends HTMLElement {
   private render(): void {
     this.innerHTML = "";
     const active = this.getAttribute("active") ?? "bandits";
-    const layout = active === "mdps" ? mdpLayout() : banditsLayout();
+    const layout =
+      active === "mdps"          ? mdpLayout() :
+      active === "contractions"  ? contractionsLayout() :
+      active === "markov-chains" ? markovLayout() :
+      banditsLayout();
     const { W, H } = layout;
 
     const { panel, body } = createPanel({ id: "roadmap-mini" });

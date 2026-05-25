@@ -127,3 +127,63 @@
   border-radius: 4px;
   margin-right: 4px;
 }
+
+/* ---- ConvergenceLab (V5 centerpiece) ---- */
+.mc-lab-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.mc-lab-panel {
+  border: 1px solid var(--rl-border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  background: var(--rl-surface);
+  min-width: 0;
+}
+
+.mc-lab-panel__title {
+  font-family: var(--rl-font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--rl-ink);
+  margin: 0 0 8px;
+}
+
+.mc-lab-panel__title small {
+  font-weight: 400;
+  color: var(--rl-ink-faint);
+}
+
+.mc-tape {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin: 4px 0 10px;
+}
+
+.mc-tape__cell {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  flex: 0 0 auto;
+}
+
+@media (max-width: 760px) {
+  .mc-lab-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Markov interactive custom elements are block-level (default is inline). */
+weather-chain-explorer,
+power-of-p-animator,
+state-classification-inspector,
+stationary-distribution-finder,
+convergence-lab,
+detailed-balance-flow,
+policy-induced-chain-preview {
+  display: block;
+}

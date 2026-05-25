@@ -7,5 +7,8 @@
 import "./WeatherChainExplorer"; // V1
 import "./PowerOfPAnimator"; // V2
 import "./StateClassificationInspector"; // V3
+import "./StationaryDistributionFinder"; // V4
+import "./ConvergenceLab"; // V5 (centerpiece)
+import "./DetailedBalanceFlow"; // V6
 
 export {};

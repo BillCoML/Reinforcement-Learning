@@ -1,0 +1,23 @@
+/*
+ * Importance Sampling lesson tokens.
+ * Blue/orange = target/proposal (carries forward to PPO's old-vs-new ratio).
+ * Cyan/violet = ordinary/weighted estimator (echoes UCB/Thompson from Lesson 1).
+ */
+:root {
+  /* Distribution roles */
+  --is-target:    #2563eb;   /* blue-600   | target distribution p */
+  --is-proposal:  #ea580c;   /* orange-600 | proposal / behavior q */
+  --is-weight:    #15803d;   /* green-700  | the importance weight w */
+  --is-truth:     #1c1e22;   /* near-black | true expectation reference */
+
+  /* Estimator semantics */
+  --is-ordinary:  #0e7490;   /* cyan-700   | unbiased, possibly high-variance */
+  --is-weighted:  #6d28d9;   /* violet-700 | biased, lower-variance */
+  --is-explosion: #b91c1c;   /* red-700    | infinite-variance regime */
+
+  /* Tint surfaces */
+  --is-target-tint:   #eff6ff;
+  --is-proposal-tint: #fff7ed;
+  --is-weight-tint:   #f0fdf4;
+  --is-explosion-tint:#fef2f2;
+}

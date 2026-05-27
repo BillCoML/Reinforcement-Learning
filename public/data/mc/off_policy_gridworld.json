@@ -1,0 +1,29 @@
+{
+  "trueValue": 0.729,
+  "rows": [
+    {
+      "N": 100,
+      "avgNonZero": 0.6,
+      "ordinaryMean": 0.85847,
+      "ordinarySD": 1.144232,
+      "weightedMean": 0.32076,
+      "weightedSD": 0.36554
+    },
+    {
+      "N": 1000,
+      "avgNonZero": 4.2,
+      "ordinaryMean": 0.787553,
+      "ordinarySD": 0.350239,
+      "weightedMean": 0.71442,
+      "weightedSD": 0.103096
+    },
+    {
+      "N": 10000,
+      "avgNonZero": 39.7,
+      "ordinaryMean": 0.734925,
+      "ordinarySD": 0.134094,
+      "weightedMean": 0.729,
+      "weightedSD": 0.0
+    }
+  ]
+}

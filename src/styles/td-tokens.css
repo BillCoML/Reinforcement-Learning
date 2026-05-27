@@ -1,0 +1,21 @@
+/* Temporal-Difference Learning — lesson color tokens. */
+:root {
+  /* Algorithm signature colors */
+  --td-td0:        #0e7490;   /* cyan-700    | TD(0) prediction */
+  --td-sarsa:      #15803d;   /* green-700   | SARSA: on-policy */
+  --td-qlearning:  #ea580c;   /* orange-600  | Q-learning: off-policy */
+  --td-nstep:      #b45309;   /* amber-700   | n-step TD */
+  --td-lambda:     #6d28d9;   /* violet-700  | TD(λ) / eligibility traces */
+
+  /* Comparator overlays */
+  --td-mc:         #475569;   /* slate-600   | MC reference baseline */
+  --td-truth:      #1c1e22;   /* near-black  | true V or Q* */
+
+  /* Computational objects */
+  --td-bootstrap:  #0e7490;   /* cyan        | bootstrap target */
+  --td-target:     #15803d;   /* green       | true return target */
+  --td-error:      #dc2626;   /* red-600     | TD error δ_t */
+  --td-trace:      #f59e0b;   /* amber-500   | eligibility trace e_t(s) */
+  --td-greedy:     #15803d;   /* green       | greedy action */
+  --td-explore:    #b45309;   /* amber       | exploratory action */
+}

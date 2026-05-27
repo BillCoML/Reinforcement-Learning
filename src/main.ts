@@ -21,6 +21,7 @@ import "./styles/contractions-tokens.css";
 import "./styles/dp-tokens.css";
 import "./styles/is-tokens.css";
 import "./styles/mc-tokens.css";
+import "./styles/td-tokens.css";
 
 import type { LessonMeta } from "./lesson/meta";
 import type { Section } from "./lesson/section";
@@ -42,6 +43,7 @@ import { contractionsMeta, contractionsSections } from "./lesson/contractions";
 import { dpMeta, dpSections } from "./lesson/dp";
 import { isMeta, isSections } from "./lesson/importance-sampling";
 import { mcMeta, mcSections } from "./lesson/monte-carlo";
+import { tdMeta, tdSections } from "./lesson/td-learning";
 
 // Register all interactive Web Components (self-registering on import).
 import "./components/registry";
@@ -51,6 +53,7 @@ import "./components/contractions-registry";
 import "./components/dp-registry";
 import "./components/is-registry";
 import "./components/mc-registry";
+import "./components/td-registry";
 
 interface LessonDef {
   /** URL slug, e.g. "bandits" → /bandits. */
@@ -69,6 +72,7 @@ const LESSONS: LessonDef[] = [
   { slug: "dynamic-programming", eyebrow: "Lesson 3", meta: dpMeta, sections: dpSections },
   { slug: "importance-sampling", eyebrow: "Lesson 6", meta: isMeta, sections: isSections },
   { slug: "monte-carlo", eyebrow: "Lesson 7", meta: mcMeta, sections: mcSections },
+  { slug: "td-learning", eyebrow: "Lesson 8", meta: tdMeta, sections: tdSections },
 ];
 
 const DEFAULT_SLUG = "bandits";

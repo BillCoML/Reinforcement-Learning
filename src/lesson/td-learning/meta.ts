@@ -1,0 +1,42 @@
+import type { LessonMeta } from "../meta";
+
+export const tdMeta: LessonMeta = {
+  id: "td-learning",
+  title: "Temporal-Difference Learning",
+  subtitle: "Bootstrap from your current estimate, update online",
+  tier: 1,
+  difficulty: 4,
+  estimatedReadMinutes: 75,
+  role: "critical-path",
+  prerequisites: [
+    { label: "Lesson 2 — MDPs", to: "mdps", anchor: "action-value-function" },
+    { label: "Prereq C — Contractions", to: "contractions", anchor: "banach-fixed-point" },
+    { label: "Lesson 3 — Dynamic Programming", to: "dynamic-programming", anchor: "iterative-policy-evaluation" },
+    { label: "Lesson 7 — Monte Carlo", to: "monte-carlo", anchor: "mc-policy-evaluation" },
+    { label: "Lesson 7 — Monte Carlo", to: "monte-carlo", anchor: "mc-control-eps-greedy" },
+    { label: "Lesson 7 — Monte Carlo", to: "monte-carlo", anchor: "mc-vs-td" },
+  ],
+  exportedAnchors: [
+    "bootstrap",
+    "td-zero-prediction",
+    "td-error",
+    "robbins-monro",
+    "sarsa",
+    "q-learning",
+    "off-policy-td",
+    "maximization-bias",
+    "n-step-td",
+    "td-lambda",
+    "eligibility-traces",
+    "td-convergence",
+    "td-forward-links",
+  ],
+  centerpieceComponent: "TDAlgorithmLab",
+  forwardLinksWhenReady: [
+    { to: "function-approximation", anchor: "deep-q-networks" },
+    { to: "function-approximation", anchor: "double-dqn" },
+    { to: "policy-gradient",        anchor: "gae" },
+    { to: "trpo-ppo",               anchor: "advantage-baselines" },
+    { to: "offline-rl",             anchor: "retrace" },
+  ],
+};

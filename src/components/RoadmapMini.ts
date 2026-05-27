@@ -30,7 +30,7 @@ interface Layout {
 }
 
 // Lessons that have actually shipped (solid, navigable).
-const BUILT = new Set(["bandits", "markov-chains", "mdps", "contractions", "dynamic-programming", "importance-sampling", "monte-carlo"]);
+const BUILT = new Set(["bandits", "markov-chains", "mdps", "contractions", "dynamic-programming", "importance-sampling", "monte-carlo", "td-learning"]);
 
 function banditsLayout(): Layout {
   const H = 320;
@@ -170,6 +170,29 @@ function mcLayout(): Layout {
   };
 }
 
+function tdLayout(): Layout {
+  const H = 300;
+  const tx = 590;
+  const ys = [28, 80, 132, 184, 236];
+  return {
+    W: 760,
+    H,
+    source: { id: "td-learning", lesson: "Lesson 8", title: "TD Learning", connection: "You are here. Bootstrapped Bellman backups: TD(0), SARSA, Q-learning, n-step, TD(λ).", x: 200, y: H / 2, exists: true },
+    prereqs: [
+      { id: "mdps",           lesson: "Lesson 2", title: "MDPs",                connection: "The Bellman equations define what TD targets are converging toward.", x: 60, y: H / 2 - 60, exists: true },
+      { id: "contractions",   lesson: "Prereq C", title: "Contractions & Banach",connection: "The Bellman operator is a γ-contraction — the convergence proof uses this directly.", x: 60, y: H / 2, exists: true },
+      { id: "monte-carlo",    lesson: "Lesson 7", title: "Monte Carlo",          connection: "MC is the λ=1 limit of TD(λ); TD interpolates between one-step bootstrap and MC.", x: 60, y: H / 2 + 60, exists: true },
+    ],
+    targets: [
+      { id: "dqn",             lesson: "Lesson 9",  title: "Deep Q-Networks",     connection: "DQN is Q-learning with a neural Q-function, target network, and replay buffer.", x: tx, y: ys[0] },
+      { id: "policy-gradient", lesson: "Lesson 10", title: "Policy Gradient",     connection: "TD value estimates form the critic in actor-critic; GAE uses TD(λ) for advantage.", x: tx, y: ys[1] },
+      { id: "trpo-ppo",        lesson: "Lesson 11", title: "TRPO/PPO",            connection: "PPO's GAE-λ parameter is the same λ dial developed in TD(λ) Section 6.", x: tx, y: ys[2] },
+      { id: "offline-rl",      lesson: "Lesson 15", title: "Offline RL",          connection: "Retrace, V-trace, and CQL are all off-policy TD algorithms with distribution-shift fixes.", x: tx, y: ys[3] },
+    ],
+    caption: "Lesson 8 is model-free learning's pivot: four downstream lessons build directly on TD",
+  };
+}
+
 function markovLayout(): Layout {
   const H = 240;
   return {
@@ -200,6 +223,7 @@ export class RoadmapMini extends HTMLElement {
       active === "dynamic-programming"   ? dpLayout() :
       active === "importance-sampling"   ? isLayout() :
       active === "monte-carlo"           ? mcLayout() :
+      active === "td-learning"           ? tdLayout() :
       banditsLayout();
     const { W, H } = layout;
 

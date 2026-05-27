@@ -49,9 +49,9 @@ Matching trajectories have weight exactly $4^4 = 256$.</p>
     </tr>
   </thead>
   <tbody>
-    <tr><td>100</td><td>0.6 / 100</td><td>0.78 ± 1.19</td><td>0.25 ± 0.35</td></tr>
-    <tr><td>1,000</td><td>3.8 / 1000</td><td>0.77 ± 0.34</td><td>0.71 ± 0.10</td></tr>
-    <tr><td>10,000</td><td>39 / 10000</td><td>0.75 ± 0.12</td><td><strong>0.7290 ± 0.0000</strong></td></tr>
+    <tr><td>100</td><td>0.6 / 100</td><td>0.86 ± 1.14</td><td>0.32 ± 0.37</td></tr>
+    <tr><td>1,000</td><td>4.2 / 1000</td><td>0.79 ± 0.35</td><td>0.71 ± 0.10</td></tr>
+    <tr><td>10,000</td><td>39.7 / 10000</td><td>0.73 ± 0.13</td><td><strong>0.7290 ± 0.0000</strong></td></tr>
   </tbody>
 </table>
 

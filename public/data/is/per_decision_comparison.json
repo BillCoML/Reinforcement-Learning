@@ -1,0 +1,44 @@
+[
+  {
+    "variant": "sparse",
+    "stepReward": 0.0,
+    "trueVal": 0.729,
+    "data": [
+      {
+        "N": 1000,
+        "ordinarySD": 0.418787,
+        "perDecisionSD": 0.418787,
+        "ordinaryMean": 0.817413,
+        "perDecisionMean": 0.817413
+      },
+      {
+        "N": 10000,
+        "ordinarySD": 0.133675,
+        "perDecisionSD": 0.133675,
+        "ordinaryMean": 0.725594,
+        "perDecisionMean": 0.725594
+      }
+    ]
+  },
+  {
+    "variant": "dense",
+    "stepReward": -0.01,
+    "trueVal": 0.69461,
+    "data": [
+      {
+        "N": 1000,
+        "ordinarySD": 0.396487,
+        "perDecisionSD": 0.410673,
+        "ordinaryMean": 0.84998,
+        "perDecisionMean": 0.854764
+      },
+      {
+        "N": 10000,
+        "ordinarySD": 0.109232,
+        "perDecisionSD": 0.11309,
+        "ordinaryMean": 0.708436,
+        "perDecisionMean": 0.708892
+      }
+    ]
+  }
+]

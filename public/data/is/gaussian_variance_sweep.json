@@ -1,0 +1,112 @@
+[
+  {
+    "sigmaQ": 0.3,
+    "finiteVariance": false,
+    "ordinaryMean": 0.483098,
+    "ordinarySD": 0.940167,
+    "weightedMean": 0.424722,
+    "weightedSD": 0.235508,
+    "essRatioMean": 0.105777,
+    "essRatioSD": 0.083007,
+    "trueVal": 1.0
+  },
+  {
+    "sigmaQ": 0.4,
+    "finiteVariance": false,
+    "ordinaryMean": 0.651137,
+    "ordinarySD": 0.463549,
+    "weightedMean": 0.648402,
+    "weightedSD": 0.273423,
+    "essRatioMean": 0.143313,
+    "essRatioSD": 0.094356,
+    "trueVal": 1.0
+  },
+  {
+    "sigmaQ": 0.5,
+    "finiteVariance": false,
+    "ordinaryMean": 0.738594,
+    "ordinarySD": 0.304926,
+    "weightedMean": 0.754474,
+    "weightedSD": 0.216933,
+    "essRatioMean": 0.267984,
+    "essRatioSD": 0.130149,
+    "trueVal": 1.0
+  },
+  {
+    "sigmaQ": 0.6,
+    "finiteVariance": false,
+    "ordinaryMean": 0.960498,
+    "ordinarySD": 0.429943,
+    "weightedMean": 0.945754,
+    "weightedSD": 0.292646,
+    "essRatioMean": 0.354388,
+    "essRatioSD": 0.1503,
+    "trueVal": 1.0
+  },
+  {
+    "sigmaQ": 0.707,
+    "finiteVariance": false,
+    "ordinaryMean": 0.972383,
+    "ordinarySD": 0.168227,
+    "weightedMean": 0.970968,
+    "weightedSD": 0.1381,
+    "essRatioMean": 0.632933,
+    "essRatioSD": 0.119006,
+    "trueVal": 1.0
+  },
+  {
+    "sigmaQ": 0.8,
+    "finiteVariance": true,
+    "ordinaryMean": 1.016447,
+    "ordinarySD": 0.103554,
+    "weightedMean": 1.013889,
+    "weightedSD": 0.090568,
+    "essRatioMean": 0.831782,
+    "essRatioSD": 0.068424,
+    "trueVal": 1.0
+  },
+  {
+    "sigmaQ": 1.0,
+    "finiteVariance": true,
+    "ordinaryMean": 0.998745,
+    "ordinarySD": 0.039102,
+    "weightedMean": 0.998745,
+    "weightedSD": 0.039102,
+    "essRatioMean": 1.0,
+    "essRatioSD": 0.0,
+    "trueVal": 1.0
+  },
+  {
+    "sigmaQ": 1.5,
+    "finiteVariance": true,
+    "ordinaryMean": 0.995504,
+    "ordinarySD": 0.021374,
+    "weightedMean": 0.99623,
+    "weightedSD": 0.034196,
+    "essRatioMean": 0.830238,
+    "essRatioSD": 0.008382,
+    "trueVal": 1.0
+  },
+  {
+    "sigmaQ": 2.0,
+    "finiteVariance": true,
+    "ordinaryMean": 0.996984,
+    "ordinarySD": 0.020696,
+    "weightedMean": 0.993403,
+    "weightedSD": 0.036899,
+    "essRatioMean": 0.662942,
+    "essRatioSD": 0.010651,
+    "trueVal": 1.0
+  },
+  {
+    "sigmaQ": 3.0,
+    "finiteVariance": true,
+    "ordinaryMean": 1.003255,
+    "ordinarySD": 0.032186,
+    "weightedMean": 1.001207,
+    "weightedSD": 0.047077,
+    "essRatioMean": 0.459764,
+    "essRatioSD": 0.012655,
+    "trueVal": 1.0
+  }
+]

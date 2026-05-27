@@ -1,0 +1,40 @@
+import type { LessonMeta } from "../meta";
+
+export const mcMeta: LessonMeta = {
+  id: "monte-carlo",
+  title: "Monte Carlo Methods",
+  subtitle: "Learning a value function from sampled trajectories",
+  tier: 1,
+  difficulty: 3,
+  estimatedReadMinutes: 55,
+  role: "critical-path",
+  prerequisites: [
+    { label: "Lesson 2 — MDPs", to: "mdps", anchor: "state-value-function" },
+    { label: "Lesson 2 — MDPs", to: "mdps", anchor: "action-value-function" },
+    { label: "Lesson 3 — Dynamic Programming", to: "dynamic-programming", anchor: "iterative-policy-evaluation" },
+    { label: "Lesson 3 — Dynamic Programming", to: "dynamic-programming", anchor: "policy-improvement" },
+    { label: "Lesson 6 — Importance Sampling", to: "importance-sampling", anchor: "trajectory-is" },
+    { label: "Lesson 6 — Importance Sampling", to: "importance-sampling", anchor: "weighted-is-estimator" },
+  ],
+  exportedAnchors: [
+    "model-free-setting",
+    "mc-return-estimate",
+    "first-visit-mc",
+    "every-visit-mc",
+    "mc-policy-evaluation",
+    "mc-control-exploring-starts",
+    "mc-control-eps-greedy",
+    "glie-schedule",
+    "off-policy-mc",
+    "mc-vs-td",
+  ],
+  centerpieceComponent: "MCEstimatorLab",
+  forwardLinksWhenReady: [
+    { to: "td-learning", anchor: "td-zero-prediction" },
+    { to: "td-learning", anchor: "sarsa" },
+    { to: "td-learning", anchor: "q-learning" },
+    { to: "td-learning", anchor: "n-step-td" },
+    { to: "function-approximation", anchor: "deep-q-networks" },
+    { to: "offline-rl", anchor: "offline-mc-evaluation" },
+  ],
+};

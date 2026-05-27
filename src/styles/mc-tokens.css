@@ -1,0 +1,31 @@
+/*
+ * Monte Carlo lesson tokens.
+ * Cyan pair: first-visit / every-visit siblings.
+ * Green / orange: on-policy / off-policy (echoes IS lesson's target/proposal).
+ * Violet: running estimate converging to truth (echoes IS weighted & TS posterior).
+ * Amber / violet: ε-greedy / GLIE (echoes Bandits lesson's exploration palette).
+ */
+:root {
+  /* Visit-counting modes */
+  --mc-first-visit:    #0e7490;   /* cyan-700  | first-visit MC */
+  --mc-every-visit:    #0891b2;   /* cyan-600  | every-visit MC; slightly brighter */
+
+  /* Sampling modes */
+  --mc-on-policy:      #15803d;   /* green-700 | behavior == target */
+  --mc-off-policy:     #ea580c;   /* orange-600| behavior != target (rhymes with IS proposal) */
+
+  /* Estimator overlays */
+  --mc-truth:          #1c1e22;   /* near-black | true value function */
+  --mc-running-mean:   #6d28d9;   /* violet-700 | running MC estimate */
+  --mc-band:           rgba(109, 40, 217, 0.18); /* violet-700 at 18% | confidence band */
+
+  /* Control-phase markers */
+  --mc-explore:        #b45309;   /* amber-700 | ε-greedy exploration */
+  --mc-greedy:         #15803d;   /* green-700 | greedy choice */
+  --mc-glie:           #6d28d9;   /* violet-700| GLIE schedule indicator */
+
+  /* Tint surfaces */
+  --mc-on-policy-tint: #f0fdf4;
+  --mc-off-policy-tint:#fff7ed;
+  --mc-estimate-tint:  #f5f3ff;
+}

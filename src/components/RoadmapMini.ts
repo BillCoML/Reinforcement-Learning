@@ -30,7 +30,7 @@ interface Layout {
 }
 
 // Lessons that have actually shipped (solid, navigable).
-const BUILT = new Set(["bandits", "markov-chains", "mdps", "contractions", "dynamic-programming", "importance-sampling"]);
+const BUILT = new Set(["bandits", "markov-chains", "mdps", "contractions", "dynamic-programming", "importance-sampling", "monte-carlo"]);
 
 function banditsLayout(): Layout {
   const H = 320;
@@ -147,6 +147,29 @@ function isLayout(): Layout {
   };
 }
 
+function mcLayout(): Layout {
+  const H = 280;
+  const tx = 580;
+  const ys = [30, 80, 130, 180, 230];
+  return {
+    W: 760,
+    H,
+    source: { id: "monte-carlo", lesson: "Lesson 7", title: "Monte Carlo", connection: "You are here. Model-free policy evaluation and control using sampled returns.", x: 200, y: H / 2, exists: true },
+    prereqs: [
+      { id: "mdps",                lesson: "Lesson 2", title: "MDPs",                connection: "The MDP framework defines V^π and Q^π — MC estimates them from samples.", x: 60, y: H / 2 - 44, exists: true },
+      { id: "importance-sampling", lesson: "Lesson 6", title: "Importance Sampling", connection: "Off-policy MC reweights trajectories by ρ = π_t/π_b — direct application of IS.", x: 60, y: H / 2 + 44, exists: true },
+    ],
+    targets: [
+      { id: "td-learning",     lesson: "Lesson 8",  title: "TD Learning",         connection: "TD bootstraps with V̂(s') instead of the full return; bias ↑ variance ↓.", x: tx, y: ys[0] },
+      { id: "dqn",             lesson: "Lesson 9",  title: "Deep Q-Networks",     connection: "DQN is off-policy MC control with a neural Q-function and replay.", x: tx, y: ys[1] },
+      { id: "policy-gradient", lesson: "Lesson 10", title: "Policy Gradient",     connection: "REINFORCE is on-policy MC gradient; the return G_t is its credit-assignment signal.", x: tx, y: ys[2] },
+      { id: "actor-critic",    lesson: "Lesson 11", title: "Actor-Critic",        connection: "AC replaces MC returns with TD bootstraps in the policy gradient — lower variance.", x: tx, y: ys[3] },
+      { id: "offline-rl",      lesson: "Lesson 15", title: "Offline RL",          connection: "Offline RL is off-policy MC control on a fixed dataset; IS variance is the central challenge.", x: tx, y: ys[4] },
+    ],
+    caption: "Lesson 7 closes the model-free evaluation arc and opens model-free control",
+  };
+}
+
 function markovLayout(): Layout {
   const H = 240;
   return {
@@ -176,6 +199,7 @@ export class RoadmapMini extends HTMLElement {
       active === "markov-chains"         ? markovLayout() :
       active === "dynamic-programming"   ? dpLayout() :
       active === "importance-sampling"   ? isLayout() :
+      active === "monte-carlo"           ? mcLayout() :
       banditsLayout();
     const { W, H } = layout;
 

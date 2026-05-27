@@ -30,7 +30,7 @@ interface Layout {
 }
 
 // Lessons that have actually shipped (solid, navigable).
-const BUILT = new Set(["bandits", "markov-chains", "mdps", "contractions"]);
+const BUILT = new Set(["bandits", "markov-chains", "mdps", "contractions", "dynamic-programming", "importance-sampling"]);
 
 function banditsLayout(): Layout {
   const H = 320;
@@ -100,6 +100,53 @@ function contractionsLayout(): Layout {
   };
 }
 
+function dpLayout(): Layout {
+  const H = 340;
+  const tx = 590;
+  const ys = [28, 76, 124, 172, 220, 268, 316];
+  return {
+    W: 760,
+    H,
+    source: { id: "dynamic-programming", lesson: "Lesson 3", title: "Dynamic Programming", connection: "You are here. PI and VI exactly solve any MDP when the model is known.", x: 200, y: H / 2, exists: true },
+    prereqs: [
+      { id: "mdps", lesson: "Lesson 2", title: "MDPs", connection: "DP iterates the Bellman operators defined in §6–7.", x: 60, y: H / 2 - 52, exists: true },
+      { id: "contractions", lesson: "Prereq C", title: "Contractions & Banach", connection: "Proves T^π and T^* are γ-contractions — the stopping criterion is the a posteriori bound.", x: 60, y: H / 2 + 52, exists: true },
+    ],
+    targets: [
+      { id: "monte-carlo",         lesson: "Lesson 4", title: "Monte Carlo",           connection: "MC uses sample-based PE instead of the Bellman solve.", x: tx, y: ys[0] },
+      { id: "td-learning",         lesson: "Lesson 5", title: "TD Learning",            connection: "TD(0) is a stochastic Bellman backup — sampled DP.", x: tx, y: ys[1] },
+      { id: "importance-sampling", lesson: "Lesson 6", title: "Importance Sampling",    connection: "IS lets you evaluate π_t with π_b trajectories — DP is the model-known baseline IS replaces.", x: tx, y: ys[2] },
+      { id: "dqn",                 lesson: "Lesson 7", title: "Deep Q-Networks",        connection: "DQN learns V_θ to approximate VI with a neural net.", x: tx, y: ys[3] },
+      { id: "policy-gradient",     lesson: "Lesson 8", title: "Policy Gradient",        connection: "Actor-critic is GPI: critic = PE, actor = approximate PI.", x: tx, y: ys[4] },
+      { id: "model-based",         lesson: "Lesson 13", title: "Model-Based RL",        connection: "Learn the model then run DP inside it.", x: tx, y: ys[5] },
+      { id: "world-models",        lesson: "Lesson 14", title: "World Models",          connection: "Dreamer does DP in a latent learned model.", x: tx, y: ys[6] },
+    ],
+    caption: "Lesson 3 closes the model-known arc; six threads fan out into model-free and deep RL",
+  };
+}
+
+function isLayout(): Layout {
+  const H = 240;
+  const tx = 560;
+  const ys = [26, 78, 130, 182];
+  return {
+    W: 720,
+    H,
+    source: { id: "importance-sampling", lesson: "Lesson 6", title: "Importance Sampling", connection: "You are here. The IS identity and its variance consequences.", x: 200, y: H / 2, exists: true },
+    prereqs: [
+      { id: "mdps",                lesson: "Lesson 2", title: "MDPs",                connection: "MDPs define the trajectory distribution: IS converts off-policy samples to on-policy estimates.", x: 55, y: H / 2 - 36, exists: true },
+      { id: "dynamic-programming", lesson: "Lesson 3", title: "Dynamic Programming",  connection: "DP needs a model; IS lets you evaluate π_t using π_b trajectories without the transition matrix.", x: 55, y: H / 2 + 36, exists: true },
+    ],
+    targets: [
+      { id: "monte-carlo",   lesson: "Lesson 7",  title: "Monte Carlo",       connection: "Off-policy MC is trajectory IS on episode returns. On-policy MC needs no IS at all.", x: tx, y: ys[0] },
+      { id: "td-learning",   lesson: "Lesson 8",  title: "TD Learning",       connection: "Per-step ratio π(a|s)/µ(a|s) replaces the full product in off-policy TD; Q-learning sidesteps it entirely.", x: tx, y: ys[1] },
+      { id: "trust-region",  lesson: "Lesson 11", title: "Trust Region (PPO)", connection: "PPO's clipped ratio and TRPO's KL constraint are IS variance bounds in disguise.", x: tx, y: ys[2] },
+      { id: "offline-rl",    lesson: "Lesson 15", title: "Offline RL",        connection: "The entire offline RL toolkit (CQL, BCQ, IQL) combats IS variance with a fixed dataset.", x: tx, y: ys[3] },
+    ],
+    caption: "Lesson 6 feeds four downstream lessons — hover any node for the IS connection",
+  };
+}
+
 function markovLayout(): Layout {
   const H = 240;
   return {
@@ -124,9 +171,11 @@ export class RoadmapMini extends HTMLElement {
     this.innerHTML = "";
     const active = this.getAttribute("active") ?? "bandits";
     const layout =
-      active === "mdps"          ? mdpLayout() :
-      active === "contractions"  ? contractionsLayout() :
-      active === "markov-chains" ? markovLayout() :
+      active === "mdps"                  ? mdpLayout() :
+      active === "contractions"          ? contractionsLayout() :
+      active === "markov-chains"         ? markovLayout() :
+      active === "dynamic-programming"   ? dpLayout() :
+      active === "importance-sampling"   ? isLayout() :
       banditsLayout();
     const { W, H } = layout;
 

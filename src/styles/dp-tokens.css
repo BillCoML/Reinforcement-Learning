@@ -1,0 +1,20 @@
+/*
+ * DP lesson tokens. Algorithm phase colors + iteration chrome.
+ * These --dp-* variables are locked here and reused curriculum-wide.
+ */
+:root {
+  /* Algorithm phase / step indicators */
+  --dp-phase-evaluation:  #0e7490;   /* cyan-700  — policy evaluation */
+  --dp-phase-improvement: #b45309;   /* amber-700 — policy improvement */
+  --dp-phase-optimality:  #6d28d9;   /* violet-700 — Bellman optimality */
+  --dp-phase-async:       #15803d;   /* green-700 — async / sweep */
+
+  /* Iteration counter chrome */
+  --dp-iter-bg:     #f1ede4;
+  --dp-iter-border: #d9d3c4;
+  --dp-iter-text:   #1c1e22;
+
+  /* Monotonic-improvement trace */
+  --dp-improving: #15803d;  /* up step */
+  --dp-stable:    #6b7280;  /* unchanged */
+}

@@ -189,6 +189,43 @@ function render(): void {
 
   // KaTeX must run after the DOM is populated.
   typesetMath(article);
+
+  mountRoadmapJump(article);
+}
+
+let roadmapObserver: IntersectionObserver | null = null;
+
+/**
+ * Floating "Roadmap" button in the bottom-right that scrolls to the lesson's
+ * roadmap-mini panel. Hides itself when the panel is already on screen.
+ */
+function mountRoadmapJump(article: HTMLElement): void {
+  roadmapObserver?.disconnect();
+  roadmapObserver = null;
+
+  const target = article.querySelector(
+    "roadmap-mini, dqn-roadmap, maxent-roadmap-mini, ppo-roadmap-mini",
+  ) as HTMLElement | null;
+  if (!target) return;
+
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "roadmap-jump";
+  btn.setAttribute("aria-label", "Jump to roadmap");
+  btn.innerHTML = `<span aria-hidden="true">↓</span> Roadmap`;
+  btn.addEventListener("click", () => {
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+  article.appendChild(btn);
+
+  roadmapObserver = new IntersectionObserver(
+    (entries) => {
+      const visible = entries[0]?.isIntersecting ?? false;
+      btn.classList.toggle("roadmap-jump--hidden", visible);
+    },
+    { threshold: 0.15 },
+  );
+  roadmapObserver.observe(target);
 }
 
 window.addEventListener("popstate", render);

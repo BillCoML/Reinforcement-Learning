@@ -1,23 +1,25 @@
 /**
- * V8 — Roadmap Mini. A small node-and-arrow thumbnail of the curriculum DAG,
- * lesson-aware via the `active` attribute. Built lessons (bandits, markov-chains,
- * mdps) render as solid, navigable nodes; unwritten future lessons are grayed,
- * non-navigating placeholders. Hovering any node reveals its one-line connection.
+ * Roadmap Mini. A small node-and-arrow thumbnail of the curriculum DAG,
+ * lesson-aware via the `active` attribute. Every node is a built, navigable
+ * lesson — unwritten future lessons are not rendered.
  *
- * On the MDPs page this is where the curriculum first *branches out*: seven
- * forward arrows fan from the MDP to DP, MC, TD, DQN, PG, Max-Ent and Diffusion.
+ * Active lesson slugs (must match LESSONS in main.ts):
+ *   bandits, markov-chains, mdps, contractions, dynamic-programming,
+ *   importance-sampling, monte-carlo, td-learning, function-approximation,
+ *   policy-gradient, trpo-ppo, max-ent-rl.
  */
 import * as d3 from "d3";
 import { createPanel } from "./PanelChrome";
 
 interface RNode {
+  /** URL slug; must match a built lesson. */
   id: string;
+  /** Eyebrow label (e.g., "Lesson 1", "Prereq A"). */
   lesson: string;
   title: string;
   connection: string;
   x: number;
   y: number;
-  exists?: boolean;
 }
 
 interface Layout {
@@ -29,279 +31,264 @@ interface Layout {
   caption: string;
 }
 
-// Lessons that have actually shipped (solid, navigable).
-const BUILT = new Set(["bandits", "markov-chains", "mdps", "contractions", "dynamic-programming", "importance-sampling", "monte-carlo", "td-learning", "function-approximation", "policy-gradient", "trpo-ppo", "max-ent-rl"]);
-
 function banditsLayout(): Layout {
-  const H = 320;
+  const H = 260;
   return {
-    W: 760,
+    W: 720,
     H,
-    source: { id: "bandits", lesson: "Lesson 1", title: "Multi-Armed Bandits", connection: "You are here.", x: 120, y: H / 2 },
+    source: { id: "bandits", lesson: "Lesson 1", title: "Multi-Armed Bandits", connection: "You are here.", x: 200, y: H / 2 },
     prereqs: [
-      { id: "markov-chains", lesson: "Prereq A", title: "Markov Chains", connection: "The substrate Lesson 2 is built on: a policy turns an MDP into a Markov chain on states.", x: 360, y: 40, exists: true },
-      { id: "contractions", lesson: "Prereq C", title: "Contractions & Banach", connection: "The theorem that makes value iteration converge — a prereq for Lesson 3 (DP), not Lesson 1.", x: 360, y: 100, exists: true },
+      { id: "markov-chains", lesson: "Prereq A", title: "Markov Chains", connection: "Shared math prereq — the substrate Lesson 2 (MDPs) is built on.", x: 60, y: H / 2 - 48 },
+      { id: "contractions",  lesson: "Prereq C", title: "Contractions",  connection: "Shared math prereq — the theorem that makes value iteration converge in Lesson 3.", x: 60, y: H / 2 + 48 },
     ],
     targets: [
-      { id: "mdps", lesson: "Lesson 2", title: "Markov Decision Processes", connection: "A bandit is a one-state MDP — Bellman equations collapse to trivial identities.", x: 590, y: 60, exists: true },
-      { id: "dqn", lesson: "Lesson 7", title: "Deep Q-Networks", connection: "ε-greedy is the portable workhorse exploration strategy in deep RL.", x: 590, y: 140 },
-      { id: "inference", lesson: "Lesson 11", title: "RL as Inference", connection: "Thompson's 'act as if your beliefs were true' becomes the whole optimal-policy derivation.", x: 590, y: 210 },
-      { id: "rlhf", lesson: "Lesson 17", title: "RLHF & Preference Models", connection: "Preference bandits — each pull is a pairwise comparison (Bradley–Terry).", x: 590, y: 272 },
+      { id: "mdps",                   lesson: "Lesson 2", title: "MDPs",            connection: "A bandit is a one-state MDP — Bellman equations collapse to trivial identities.", x: 560, y: H / 2 - 48 },
+      { id: "function-approximation", lesson: "Lesson 9", title: "Function Approx", connection: "ε-greedy is the portable workhorse exploration strategy in deep Q-learning.", x: 560, y: H / 2 + 48 },
     ],
-    caption: "Built lessons are solid; future lessons are gray — hover for the connection",
+    caption: "Lesson 1 enters the curriculum at L2 (MDPs); ε-greedy carries forward to L9 (DQN).",
+  };
+}
+
+function markovLayout(): Layout {
+  const H = 220;
+  return {
+    W: 700,
+    H,
+    source: { id: "markov-chains", lesson: "Prereq A", title: "Markov Chains", connection: "You are here.", x: 160, y: H / 2 },
+    prereqs: [],
+    targets: [
+      { id: "mdps",         lesson: "Lesson 2", title: "MDPs",         connection: "Fix a policy and the MDP collapses to a Markov chain on states — the same P^π matrix.", x: 500, y: H / 2 - 44 },
+      { id: "contractions", lesson: "Prereq C", title: "Contractions", connection: "The contraction proofs use row-stochastic P^π — its properties come from Markov chain theory.", x: 500, y: H / 2 + 44 },
+    ],
+    caption: "Prereq A feeds Lesson 2 (MDPs) and the contraction proofs in Prereq C.",
   };
 }
 
 function mdpLayout(): Layout {
-  const H = 352;
+  const H = 360;
   const tx = 590;
-  const ys = [32, 76, 120, 164, 208, 252, 296];
+  const ys = [40, 96, 152, 208, 264, 320];
   return {
     W: 760,
     H,
-    source: { id: "mdps", lesson: "Lesson 2", title: "Markov Decision Processes", connection: "You are here. The center of gravity: every lesson ahead solves, approximates, or generalizes the Bellman equations.", x: 200, y: H / 2, exists: true },
+    source: { id: "mdps", lesson: "Lesson 2", title: "MDPs", connection: "You are here. The spine of the curriculum: every lesson ahead solves, approximates, or generalizes the Bellman equations.", x: 200, y: H / 2 },
     prereqs: [
-      { id: "bandits", lesson: "Lesson 1", title: "Multi-Armed Bandits", connection: "A bandit is the one-state MDP; ε-greedy exploration carries forward.", x: 70, y: H / 2 - 52, exists: true },
-      { id: "markov-chains", lesson: "Prereq A", title: "Markov Chains", connection: "Fix a policy and the MDP becomes the chain P^π — same matrix, now controlled.", x: 70, y: H / 2 + 52, exists: true },
-      { id: "contractions", lesson: "Prereq C", title: "Contractions & Banach", connection: "The Banach theorem proves value iteration converges — a prereq between Lesson 2 and Lesson 3.", x: 70, y: H / 2 - 108, exists: true },
+      { id: "bandits",       lesson: "Lesson 1", title: "Multi-Armed Bandits", connection: "A bandit is the one-state MDP; ε-greedy exploration carries forward.", x: 60, y: H / 2 - 56 },
+      { id: "markov-chains", lesson: "Prereq A", title: "Markov Chains",       connection: "Fix a policy and the MDP becomes the chain P^π — same matrix, now controlled.", x: 60, y: H / 2 },
+      { id: "contractions",  lesson: "Prereq C", title: "Contractions",        connection: "The Banach theorem proves value iteration converges — a prereq between L2 and L3.", x: 60, y: H / 2 + 56 },
     ],
     targets: [
-      { id: "dynamic-programming", lesson: "Lesson 3", title: "Dynamic Programming", connection: "Policy iteration & value iteration iterate §6's operators when the model is known.", x: tx, y: ys[0] },
-      { id: "monte-carlo", lesson: "Lesson 4", title: "Monte Carlo", connection: "Estimate V^π from sampled returns — sidestep the Bellman equation entirely.", x: tx, y: ys[1] },
-      { id: "td-learning", lesson: "Lesson 5", title: "TD Learning", connection: "Sampled Bellman backups: replace Σ P(s'|s,a)V(s') with one r + γV(s').", x: tx, y: ys[2] },
-      { id: "dqn", lesson: "Lesson 7", title: "Deep Q-Networks", connection: "Learn §7's Q* with a net; the loss is the squared Bellman-optimality residual.", x: tx, y: ys[3] },
-      { id: "policy-gradient", lesson: "Lesson 8", title: "Policy Gradient", connection: "The gradient multiplies the score function by §5's advantage A^π.", x: tx, y: ys[4] },
-      { id: "max-ent-rl", lesson: "Lesson 10", title: "Max-Entropy RL", connection: "Add an entropy bonus; Bellman gains a log-Z term and π* becomes a softmax over Q.", x: tx, y: ys[5] },
-      { id: "diffusion", lesson: "Lesson 16", title: "Diffusion in RL", connection: "Diffusion policies still maximize E_π[Q^π(s,a)] — the same value function.", x: tx, y: ys[6] },
+      { id: "dynamic-programming",    lesson: "Lesson 3",  title: "Dynamic Programming", connection: "Policy iteration & value iteration iterate the Bellman operators when the model is known.", x: tx, y: ys[0] },
+      { id: "importance-sampling",    lesson: "Lesson 6",  title: "Importance Sampling", connection: "IS reweights off-policy trajectories — the bridge from model-known to model-free.", x: tx, y: ys[1] },
+      { id: "monte-carlo",            lesson: "Lesson 7",  title: "Monte Carlo",         connection: "Estimate V^π from sampled returns — sidestep the Bellman equation entirely.", x: tx, y: ys[2] },
+      { id: "td-learning",            lesson: "Lesson 8",  title: "TD Learning",         connection: "Sampled Bellman backups: replace Σ P(s'|s,a)V(s') with one r + γV(s').", x: tx, y: ys[3] },
+      { id: "function-approximation", lesson: "Lesson 9",  title: "Function Approx",     connection: "Learn Q* with a neural net; the loss is the squared Bellman-optimality residual.", x: tx, y: ys[4] },
+      { id: "policy-gradient",        lesson: "Lesson 10", title: "Policy Gradient",     connection: "The gradient multiplies the score function by the advantage A^π.", x: tx, y: ys[5] },
     ],
-    caption: "Lesson 2 is the spine — seven forward threads fan out (all unwritten; hover for the connection)",
+    caption: "Lesson 2 is the spine — six threads fan forward to L3, L6, L7, L8, L9 and L10.",
   };
 }
 
 function contractionsLayout(): Layout {
-  const H = 280;
-  const tx = 580;
-  const ys = [32, 80, 128, 176, 224];
+  const H = 260;
+  const tx = 560;
+  const ys = [40, 100, 160, 220];
   return {
-    W: 760,
+    W: 720,
     H,
-    source: { id: "contractions", lesson: "Prereq C", title: "Contractions & Banach", connection: "You are here. The single theorem that powers all of dynamic programming.", x: 180, y: H / 2, exists: true },
+    source: { id: "contractions", lesson: "Prereq C", title: "Contractions", connection: "You are here. The single theorem that powers all of dynamic programming.", x: 180, y: H / 2 },
     prereqs: [
-      { id: "mdps", lesson: "Lesson 2", title: "Markov Decision Processes", connection: "The Bellman operators T^π and T^* are introduced here — this prereq proves they're contractions.", x: 55, y: H / 2, exists: true },
+      { id: "mdps", lesson: "Lesson 2", title: "MDPs", connection: "The Bellman operators T^π and T^* are introduced here — this prereq proves they're contractions.", x: 55, y: H / 2 },
     ],
     targets: [
-      { id: "dynamic-programming", lesson: "Lesson 3", title: "Dynamic Programming", connection: "Value iteration is Banach iteration on T^*. The stopping criterion is the a posteriori bound with c = γ.", x: tx, y: ys[0] },
-      { id: "td-learning", lesson: "Lesson 5", title: "TD Learning", connection: "Stochastic Bellman backups are contractions in expectation — the Robbins-Monro theorem takes over.", x: tx, y: ys[1] },
-      { id: "function-approx", lesson: "Lesson 6", title: "Function Approximation", connection: "The deadly triad: projection + bootstrapping + off-policy breaks the contraction property.", x: tx, y: ys[2] },
-      { id: "trust-region", lesson: "Lesson 9", title: "Trust Region (TRPO/PPO)", connection: "Fixed-point iteration intuition: iterate until convergence, bound per-step movement.", x: tx, y: ys[3] },
-      { id: "inference-rl", lesson: "Lesson 11", title: "RL as Inference", connection: "The soft Bellman operator is also a γ-contraction — same theorem, entropy-augmented reward.", x: tx, y: ys[4] },
+      { id: "dynamic-programming",    lesson: "Lesson 3",  title: "Dynamic Programming", connection: "Value iteration is Banach iteration on T^*. The stopping criterion is the a-posteriori bound with c = γ.", x: tx, y: ys[0] },
+      { id: "td-learning",            lesson: "Lesson 8",  title: "TD Learning",         connection: "Stochastic Bellman backups are contractions in expectation — the Robbins–Monro theorem takes over.", x: tx, y: ys[1] },
+      { id: "function-approximation", lesson: "Lesson 9",  title: "Function Approx",     connection: "The deadly triad: projection + bootstrapping + off-policy breaks the contraction property.", x: tx, y: ys[2] },
+      { id: "trpo-ppo",               lesson: "Lesson 11", title: "TRPO / PPO",          connection: "Fixed-point intuition: iterate until convergence, bound per-step movement (trust regions, clipping).", x: tx, y: ys[3] },
     ],
-    caption: "Prereq C links Lesson 2 (MDPs) to Lesson 3 (DP) and cashes in across the curriculum",
+    caption: "Prereq C links L2 (MDPs) to L3 (DP) and cashes in across L8, L9 and L11.",
   };
 }
 
 function dpLayout(): Layout {
-  const H = 340;
+  const H = 320;
   const tx = 590;
-  const ys = [28, 76, 124, 172, 220, 268, 316];
+  const ys = [40, 96, 152, 208, 264];
   return {
     W: 760,
     H,
-    source: { id: "dynamic-programming", lesson: "Lesson 3", title: "Dynamic Programming", connection: "You are here. PI and VI exactly solve any MDP when the model is known.", x: 200, y: H / 2, exists: true },
+    source: { id: "dynamic-programming", lesson: "Lesson 3", title: "Dynamic Programming", connection: "You are here. PI and VI exactly solve any MDP when the model is known.", x: 200, y: H / 2 },
     prereqs: [
-      { id: "mdps", lesson: "Lesson 2", title: "MDPs", connection: "DP iterates the Bellman operators defined in §6–7.", x: 60, y: H / 2 - 52, exists: true },
-      { id: "contractions", lesson: "Prereq C", title: "Contractions & Banach", connection: "Proves T^π and T^* are γ-contractions — the stopping criterion is the a posteriori bound.", x: 60, y: H / 2 + 52, exists: true },
+      { id: "mdps",         lesson: "Lesson 2", title: "MDPs",         connection: "DP iterates the Bellman operators defined here.", x: 60, y: H / 2 - 52 },
+      { id: "contractions", lesson: "Prereq C", title: "Contractions", connection: "Proves T^π and T^* are γ-contractions — the stopping criterion is the a-posteriori bound.", x: 60, y: H / 2 + 52 },
     ],
     targets: [
-      { id: "monte-carlo",         lesson: "Lesson 4", title: "Monte Carlo",           connection: "MC uses sample-based PE instead of the Bellman solve.", x: tx, y: ys[0] },
-      { id: "td-learning",         lesson: "Lesson 5", title: "TD Learning",            connection: "TD(0) is a stochastic Bellman backup — sampled DP.", x: tx, y: ys[1] },
-      { id: "importance-sampling", lesson: "Lesson 6", title: "Importance Sampling",    connection: "IS lets you evaluate π_t with π_b trajectories — DP is the model-known baseline IS replaces.", x: tx, y: ys[2] },
-      { id: "dqn",                 lesson: "Lesson 7", title: "Deep Q-Networks",        connection: "DQN learns V_θ to approximate VI with a neural net.", x: tx, y: ys[3] },
-      { id: "policy-gradient",     lesson: "Lesson 8", title: "Policy Gradient",        connection: "Actor-critic is GPI: critic = PE, actor = approximate PI.", x: tx, y: ys[4] },
-      { id: "model-based",         lesson: "Lesson 13", title: "Model-Based RL",        connection: "Learn the model then run DP inside it.", x: tx, y: ys[5] },
-      { id: "world-models",        lesson: "Lesson 14", title: "World Models",          connection: "Dreamer does DP in a latent learned model.", x: tx, y: ys[6] },
+      { id: "importance-sampling",    lesson: "Lesson 6",  title: "Importance Sampling", connection: "IS evaluates π_t from π_b trajectories — DP is the model-known baseline IS replaces.", x: tx, y: ys[0] },
+      { id: "monte-carlo",            lesson: "Lesson 7",  title: "Monte Carlo",         connection: "MC uses sample-based policy evaluation instead of the Bellman solve.", x: tx, y: ys[1] },
+      { id: "td-learning",            lesson: "Lesson 8",  title: "TD Learning",         connection: "TD(0) is a stochastic Bellman backup — sampled DP.", x: tx, y: ys[2] },
+      { id: "function-approximation", lesson: "Lesson 9",  title: "Function Approx",     connection: "DQN learns V_θ / Q_θ to approximate VI with a neural net.", x: tx, y: ys[3] },
+      { id: "policy-gradient",        lesson: "Lesson 10", title: "Policy Gradient",     connection: "Actor-critic is GPI: critic = policy evaluation, actor = approximate policy improvement.", x: tx, y: ys[4] },
     ],
-    caption: "Lesson 3 closes the model-known arc; six threads fan out into model-free and deep RL",
+    caption: "Lesson 3 closes the model-known arc; five threads fan into model-free and deep RL.",
   };
 }
 
 function isLayout(): Layout {
   const H = 240;
   const tx = 560;
-  const ys = [26, 78, 130, 182];
+  const ys = [50, 120, 190];
   return {
     W: 720,
     H,
-    source: { id: "importance-sampling", lesson: "Lesson 6", title: "Importance Sampling", connection: "You are here. The IS identity and its variance consequences.", x: 200, y: H / 2, exists: true },
+    source: { id: "importance-sampling", lesson: "Lesson 6", title: "Importance Sampling", connection: "You are here. The IS identity and its variance consequences.", x: 200, y: H / 2 },
     prereqs: [
-      { id: "mdps",                lesson: "Lesson 2", title: "MDPs",                connection: "MDPs define the trajectory distribution: IS converts off-policy samples to on-policy estimates.", x: 55, y: H / 2 - 36, exists: true },
-      { id: "dynamic-programming", lesson: "Lesson 3", title: "Dynamic Programming",  connection: "DP needs a model; IS lets you evaluate π_t using π_b trajectories without the transition matrix.", x: 55, y: H / 2 + 36, exists: true },
+      { id: "mdps",                lesson: "Lesson 2", title: "MDPs",                connection: "MDPs define the trajectory distribution: IS converts off-policy samples to on-policy estimates.", x: 55, y: H / 2 - 40 },
+      { id: "dynamic-programming", lesson: "Lesson 3", title: "Dynamic Programming", connection: "DP needs a model; IS lets you evaluate π_t using π_b trajectories without the transition matrix.", x: 55, y: H / 2 + 40 },
     ],
     targets: [
-      { id: "monte-carlo",   lesson: "Lesson 7",  title: "Monte Carlo",       connection: "Off-policy MC is trajectory IS on episode returns. On-policy MC needs no IS at all.", x: tx, y: ys[0] },
-      { id: "td-learning",   lesson: "Lesson 8",  title: "TD Learning",       connection: "Per-step ratio π(a|s)/µ(a|s) replaces the full product in off-policy TD; Q-learning sidesteps it entirely.", x: tx, y: ys[1] },
-      { id: "trust-region",  lesson: "Lesson 11", title: "Trust Region (PPO)", connection: "PPO's clipped ratio and TRPO's KL constraint are IS variance bounds in disguise.", x: tx, y: ys[2] },
-      { id: "offline-rl",    lesson: "Lesson 15", title: "Offline RL",        connection: "The entire offline RL toolkit (CQL, BCQ, IQL) combats IS variance with a fixed dataset.", x: tx, y: ys[3] },
+      { id: "monte-carlo", lesson: "Lesson 7",  title: "Monte Carlo", connection: "Off-policy MC is trajectory IS on episode returns. On-policy MC needs no IS at all.", x: tx, y: ys[0] },
+      { id: "td-learning", lesson: "Lesson 8",  title: "TD Learning", connection: "Per-step ratio π(a|s)/µ(a|s) replaces the full product in off-policy TD; Q-learning sidesteps it entirely.", x: tx, y: ys[1] },
+      { id: "trpo-ppo",    lesson: "Lesson 11", title: "TRPO / PPO",  connection: "PPO's clipped ratio and TRPO's KL constraint are IS variance bounds in disguise.", x: tx, y: ys[2] },
     ],
-    caption: "Lesson 6 feeds four downstream lessons — hover any node for the IS connection",
+    caption: "Lesson 6 feeds L7, L8 and L11 — hover any node for the IS connection.",
   };
 }
 
 function mcLayout(): Layout {
-  const H = 280;
-  const tx = 580;
-  const ys = [30, 80, 130, 180, 230];
+  const H = 240;
+  const tx = 560;
+  const ys = [50, 120, 190];
   return {
-    W: 760,
+    W: 720,
     H,
-    source: { id: "monte-carlo", lesson: "Lesson 7", title: "Monte Carlo", connection: "You are here. Model-free policy evaluation and control using sampled returns.", x: 200, y: H / 2, exists: true },
+    source: { id: "monte-carlo", lesson: "Lesson 7", title: "Monte Carlo", connection: "You are here. Model-free policy evaluation and control using sampled returns.", x: 200, y: H / 2 },
     prereqs: [
-      { id: "mdps",                lesson: "Lesson 2", title: "MDPs",                connection: "The MDP framework defines V^π and Q^π — MC estimates them from samples.", x: 60, y: H / 2 - 44, exists: true },
-      { id: "importance-sampling", lesson: "Lesson 6", title: "Importance Sampling", connection: "Off-policy MC reweights trajectories by ρ = π_t/π_b — direct application of IS.", x: 60, y: H / 2 + 44, exists: true },
+      { id: "mdps",                lesson: "Lesson 2", title: "MDPs",                connection: "The MDP framework defines V^π and Q^π — MC estimates them from samples.", x: 60, y: H / 2 - 42 },
+      { id: "importance-sampling", lesson: "Lesson 6", title: "Importance Sampling", connection: "Off-policy MC reweights trajectories by ρ = π_t/π_b — direct application of IS.", x: 60, y: H / 2 + 42 },
     ],
     targets: [
-      { id: "td-learning",     lesson: "Lesson 8",  title: "TD Learning",         connection: "TD bootstraps with V̂(s') instead of the full return; bias ↑ variance ↓.", x: tx, y: ys[0] },
-      { id: "dqn",             lesson: "Lesson 9",  title: "Deep Q-Networks",     connection: "DQN is off-policy MC control with a neural Q-function and replay.", x: tx, y: ys[1] },
-      { id: "policy-gradient", lesson: "Lesson 10", title: "Policy Gradient",     connection: "REINFORCE is on-policy MC gradient; the return G_t is its credit-assignment signal.", x: tx, y: ys[2] },
-      { id: "actor-critic",    lesson: "Lesson 11", title: "Actor-Critic",        connection: "AC replaces MC returns with TD bootstraps in the policy gradient — lower variance.", x: tx, y: ys[3] },
-      { id: "offline-rl",      lesson: "Lesson 15", title: "Offline RL",          connection: "Offline RL is off-policy MC control on a fixed dataset; IS variance is the central challenge.", x: tx, y: ys[4] },
+      { id: "td-learning",            lesson: "Lesson 8",  title: "TD Learning",     connection: "TD bootstraps with V̂(s') instead of the full return; bias ↑ variance ↓.", x: tx, y: ys[0] },
+      { id: "function-approximation", lesson: "Lesson 9",  title: "Function Approx", connection: "DQN is off-policy MC control with a neural Q-function and replay.", x: tx, y: ys[1] },
+      { id: "policy-gradient",        lesson: "Lesson 10", title: "Policy Gradient", connection: "REINFORCE is on-policy MC gradient ascent; the return G_t is its credit-assignment signal.", x: tx, y: ys[2] },
     ],
-    caption: "Lesson 7 closes the model-free evaluation arc and opens model-free control",
+    caption: "Lesson 7 closes the model-free evaluation arc and opens model-free control.",
   };
 }
 
 function tdLayout(): Layout {
-  const H = 300;
-  const tx = 590;
-  const ys = [28, 80, 132, 184, 236];
+  const H = 260;
+  const tx = 560;
+  const ys = [60, 130, 200];
   return {
-    W: 760,
+    W: 720,
     H,
-    source: { id: "td-learning", lesson: "Lesson 8", title: "TD Learning", connection: "You are here. Bootstrapped Bellman backups: TD(0), SARSA, Q-learning, n-step, TD(λ).", x: 200, y: H / 2, exists: true },
+    source: { id: "td-learning", lesson: "Lesson 8", title: "TD Learning", connection: "You are here. Bootstrapped Bellman backups: TD(0), SARSA, Q-learning, n-step, TD(λ).", x: 200, y: H / 2 },
     prereqs: [
-      { id: "mdps",           lesson: "Lesson 2", title: "MDPs",                connection: "The Bellman equations define what TD targets are converging toward.", x: 60, y: H / 2 - 60, exists: true },
-      { id: "contractions",   lesson: "Prereq C", title: "Contractions & Banach",connection: "The Bellman operator is a γ-contraction — the convergence proof uses this directly.", x: 60, y: H / 2, exists: true },
-      { id: "monte-carlo",    lesson: "Lesson 7", title: "Monte Carlo",          connection: "MC is the λ=1 limit of TD(λ); TD interpolates between one-step bootstrap and MC.", x: 60, y: H / 2 + 60, exists: true },
+      { id: "mdps",         lesson: "Lesson 2", title: "MDPs",         connection: "The Bellman equations define what TD targets are converging toward.", x: 60, y: H / 2 - 58 },
+      { id: "contractions", lesson: "Prereq C", title: "Contractions", connection: "The Bellman operator is a γ-contraction — the convergence proof uses this directly.", x: 60, y: H / 2 },
+      { id: "monte-carlo",  lesson: "Lesson 7", title: "Monte Carlo",  connection: "MC is the λ=1 limit of TD(λ); TD interpolates between one-step bootstrap and full MC return.", x: 60, y: H / 2 + 58 },
     ],
     targets: [
-      { id: "dqn",             lesson: "Lesson 9",  title: "Deep Q-Networks",     connection: "DQN is Q-learning with a neural Q-function, target network, and replay buffer.", x: tx, y: ys[0] },
-      { id: "policy-gradient", lesson: "Lesson 10", title: "Policy Gradient",     connection: "TD value estimates form the critic in actor-critic; GAE uses TD(λ) for advantage.", x: tx, y: ys[1] },
-      { id: "trpo-ppo",        lesson: "Lesson 11", title: "TRPO/PPO",            connection: "PPO's GAE-λ parameter is the same λ dial developed in TD(λ) Section 6.", x: tx, y: ys[2] },
-      { id: "offline-rl",      lesson: "Lesson 15", title: "Offline RL",          connection: "Retrace, V-trace, and CQL are all off-policy TD algorithms with distribution-shift fixes.", x: tx, y: ys[3] },
+      { id: "function-approximation", lesson: "Lesson 9",  title: "Function Approx", connection: "DQN is Q-learning with a neural Q-function, target network, and replay buffer.", x: tx, y: ys[0] },
+      { id: "policy-gradient",        lesson: "Lesson 10", title: "Policy Gradient", connection: "TD value estimates form the critic in actor-critic; GAE uses TD(λ) for advantage.", x: tx, y: ys[1] },
+      { id: "trpo-ppo",               lesson: "Lesson 11", title: "TRPO / PPO",      connection: "PPO's GAE-λ parameter is the same λ dial developed in TD(λ).", x: tx, y: ys[2] },
     ],
-    caption: "Lesson 8 is model-free learning's pivot: four downstream lessons build directly on TD",
+    caption: "Lesson 8 is model-free learning's pivot — three threads forward to L9, L10 and L11.",
   };
 }
 
 function faLayout(): Layout {
-  const H = 300;
-  const tx = 590;
-  const ys = [28, 80, 132, 184, 236];
+  const H = 260;
+  const tx = 560;
+  const ys = [60, 130, 200];
   return {
-    W: 760,
+    W: 720,
     H,
-    source: { id: "function-approximation", lesson: "Lesson 9", title: "Function Approx & DQN", connection: "You are here. Semi-gradient TD, the deadly triad, and Deep Q-Networks.", x: 200, y: H / 2, exists: true },
+    source: { id: "function-approximation", lesson: "Lesson 9", title: "Function Approx", connection: "You are here. Semi-gradient TD, the deadly triad, and Deep Q-Networks.", x: 200, y: H / 2 },
     prereqs: [
-      { id: "td-learning",   lesson: "Lesson 8", title: "TD Learning",   connection: "DQN is Q-learning with a neural net; target network + replay fix the instabilities of Table §3.", x: 60, y: H / 2 - 60, exists: true },
-      { id: "mdps",          lesson: "Lesson 2", title: "MDPs",           connection: "The Bellman optimality equation is what the Q-network is trained to satisfy.", x: 60, y: H / 2,        exists: true },
-      { id: "monte-carlo",   lesson: "Lesson 7", title: "Monte Carlo",    connection: "Experience replay turns DQN's online transitions into an iid sample — the MC intuition.", x: 60, y: H / 2 + 60, exists: true },
+      { id: "td-learning", lesson: "Lesson 8", title: "TD Learning", connection: "DQN is Q-learning with a neural net; target network + replay fix the instabilities of tabular TD.", x: 60, y: H / 2 - 58 },
+      { id: "mdps",        lesson: "Lesson 2", title: "MDPs",        connection: "The Bellman optimality equation is what the Q-network is trained to satisfy.", x: 60, y: H / 2 },
+      { id: "monte-carlo", lesson: "Lesson 7", title: "Monte Carlo", connection: "Experience replay turns DQN's online transitions into an iid sample — the MC intuition.", x: 60, y: H / 2 + 58 },
     ],
     targets: [
-      { id: "policy-gradient", lesson: "Lesson 10", title: "Policy Gradient",   connection: "Actor-critic replaces tabular V with a learned V_θ — the function-approximation leap.", x: tx, y: ys[0] },
-      { id: "trpo-ppo",        lesson: "Lesson 11", title: "TRPO/PPO",           connection: "PPO's value network is a linear FA + DQN hybrid; trust region corrects for deadly-triad instability.", x: tx, y: ys[1] },
-      { id: "max-ent-rl",      lesson: "Lesson 12", title: "Max-Entropy RL",     connection: "SAC extends DQN with a soft Bellman operator; double Q-nets tame maximization bias.", x: tx, y: ys[2] },
-      { id: "offline-rl",      lesson: "Lesson 15", title: "Offline RL",         connection: "Offline RL constraints (CQL, IQL) penalize OOD Q-values — the deadly triad in a fixed dataset.", x: tx, y: ys[3] },
-      { id: "rlhf",            lesson: "Lesson 17", title: "RLHF",               connection: "Reward models are Q-functions trained by preference comparisons — the same FA machinery.", x: tx, y: ys[4] },
+      { id: "policy-gradient", lesson: "Lesson 10", title: "Policy Gradient", connection: "Actor-critic replaces tabular V with a learned V_θ — the function-approximation leap.", x: tx, y: ys[0] },
+      { id: "trpo-ppo",        lesson: "Lesson 11", title: "TRPO / PPO",      connection: "PPO's value network is FA + DQN; trust regions correct for deadly-triad instability.", x: tx, y: ys[1] },
+      { id: "max-ent-rl",      lesson: "Lesson 12", title: "Max-Entropy RL",  connection: "SAC extends DQN with a soft Bellman operator; double Q-nets tame maximization bias.", x: tx, y: ys[2] },
     ],
-    caption: "Lesson 9 bridges model-free tabular RL and deep RL — five threads forward",
+    caption: "Lesson 9 bridges tabular model-free RL and deep RL — three threads forward.",
   };
 }
 
 function pgLayout(): Layout {
-  const H = 300;
-  const tx = 590;
-  const ys = [28, 80, 132, 184, 236];
-  return {
-    W: 760,
-    H,
-    source: { id: "policy-gradient", lesson: "Lesson 10", title: "Policy Gradient", connection: "You are here. REINFORCE, actor-critic, and the bias-variance tradeoff in advantage estimation.", x: 200, y: H / 2, exists: true },
-    prereqs: [
-      { id: "monte-carlo",          lesson: "Lesson 7", title: "Monte Carlo",          connection: "REINFORCE is on-policy MC gradient ascent; G_t is the credit-assignment signal.", x: 60, y: H / 2 - 60, exists: true },
-      { id: "td-learning",          lesson: "Lesson 8", title: "TD Learning",           connection: "TD value estimates form the critic; GAE(λ) uses TD(λ) for advantage estimation.", x: 60, y: H / 2,     exists: true },
-      { id: "function-approximation", lesson: "Lesson 9", title: "Function Approx",    connection: "Actor-critic replaces tabular V with a learned V_θ — the function-approximation leap.", x: 60, y: H / 2 + 60, exists: true },
-    ],
-    targets: [
-      { id: "trpo-ppo",   lesson: "Lesson 11", title: "TRPO / PPO",      connection: "Trust regions and clipped objectives prevent catastrophically large policy gradient steps.", x: tx, y: ys[0] },
-      { id: "max-ent-rl", lesson: "Lesson 12", title: "Max-Entropy RL",  connection: "Adds an entropy bonus H[π] to the PG objective — prevents collapse and improves exploration.", x: tx, y: ys[1] },
-      { id: "sac",        lesson: "Lesson 13", title: "SAC",              connection: "Off-policy actor-critic with replay buffer and twin Q-nets — max-entropy PG at scale.", x: tx, y: ys[2] },
-      { id: "model-based", lesson: "Lesson 14", title: "Model-Based RL", connection: "Backpropagating through a learned model to the policy gradient is MBPO / Dreamer.", x: tx, y: ys[3] },
-      { id: "rlhf",       lesson: "Lesson 17", title: "RLHF",             connection: "The LM is the policy, the reward model replaces the env; PPO actor-critic runs the update.", x: tx, y: ys[4] },
-    ],
-    caption: "Lesson 10 connects model-free learning to the deep RL frontier — five threads forward",
-  };
-}
-
-function markovLayout(): Layout {
   const H = 240;
+  const tx = 560;
+  const ys = [80, 160];
   return {
     W: 720,
     H,
-    source: { id: "markov-chains", lesson: "Prereq A", title: "Markov Chains", connection: "You are here.", x: 120, y: H / 2 },
-    prereqs: [],
-    targets: [
-      { id: "mdps", lesson: "Lesson 2", title: "Markov Decision Processes", connection: "Fix a policy and the MDP collapses to a Markov chain on states — the same P^π matrix.", x: 420, y: H / 2 - 44, exists: true },
-      { id: "contractions", lesson: "Prereq C", title: "Contractions & Banach", connection: "The contraction proof uses row-stochastic P^π — its properties come from Markov chain theory.", x: 420, y: H / 2 + 44, exists: true },
+    source: { id: "policy-gradient", lesson: "Lesson 10", title: "Policy Gradient", connection: "You are here. REINFORCE, actor-critic, and the bias–variance tradeoff in advantage estimation.", x: 200, y: H / 2 },
+    prereqs: [
+      { id: "monte-carlo",            lesson: "Lesson 7", title: "Monte Carlo",     connection: "REINFORCE is on-policy MC gradient ascent; G_t is the credit-assignment signal.", x: 60, y: H / 2 - 56 },
+      { id: "td-learning",            lesson: "Lesson 8", title: "TD Learning",     connection: "TD value estimates form the critic; GAE(λ) uses TD(λ) for advantage estimation.", x: 60, y: H / 2 },
+      { id: "function-approximation", lesson: "Lesson 9", title: "Function Approx", connection: "Actor-critic replaces tabular V with a learned V_θ — the function-approximation leap.", x: 60, y: H / 2 + 56 },
     ],
-    caption: "Prereq A feeds into Lesson 2 and the contraction proofs in Prereq C",
+    targets: [
+      { id: "trpo-ppo",   lesson: "Lesson 11", title: "TRPO / PPO",     connection: "Trust regions and clipped objectives prevent catastrophically large policy gradient steps.", x: tx, y: ys[0] },
+      { id: "max-ent-rl", lesson: "Lesson 12", title: "Max-Entropy RL", connection: "Adds an entropy bonus H[π] to the PG objective — prevents collapse and improves exploration.", x: tx, y: ys[1] },
+    ],
+    caption: "Lesson 10 leads directly into the trust-region (L11) and max-entropy (L12) families.",
   };
 }
 
 function ppoLayout(): Layout {
-  const H = 300;
-  const tx = 590;
-  const ys = [28, 80, 132, 184, 236];
+  const H = 240;
+  const tx = 560;
   return {
-    W: 760,
+    W: 720,
     H,
-    source: { id: "trpo-ppo", lesson: "Lesson 11", title: "TRPO / PPO", connection: "You are here. Trust regions, the clipped surrogate, GAE, and the PPO algorithm.", x: 200, y: H / 2, exists: true },
+    source: { id: "trpo-ppo", lesson: "Lesson 11", title: "TRPO / PPO", connection: "You are here. Trust regions, the clipped surrogate, GAE, and the PPO algorithm.", x: 200, y: H / 2 },
     prereqs: [
-      { id: "policy-gradient", lesson: "Lesson 10", title: "Policy Gradient", connection: "PPO is actor-critic with a clipped IS surrogate and multiple epochs per batch.", x: 60, y: H / 2 - 60, exists: true },
-      { id: "importance-sampling", lesson: "Lesson 6", title: "Importance Sampling", connection: "PPO's probability ratio r_t = π/π_old is the IS weight — same object, same variance problem.", x: 60, y: H / 2, exists: true },
-      { id: "function-approximation", lesson: "Lesson 9", title: "Function Approx", connection: "The deadly triad motivates PPO's bounded updates — clipping is the on-policy antidote.", x: 60, y: H / 2 + 60, exists: true },
+      { id: "policy-gradient",        lesson: "Lesson 10", title: "Policy Gradient",     connection: "PPO is actor-critic with a clipped IS surrogate and multiple epochs per batch.", x: 60, y: H / 2 - 56 },
+      { id: "importance-sampling",    lesson: "Lesson 6",  title: "Importance Sampling", connection: "PPO's probability ratio r_t = π/π_old is the IS weight — same object, same variance problem.", x: 60, y: H / 2 },
+      { id: "function-approximation", lesson: "Lesson 9",  title: "Function Approx",     connection: "The deadly triad motivates PPO's bounded updates — clipping is the on-policy antidote.", x: 60, y: H / 2 + 56 },
     ],
     targets: [
-      { id: "max-ent-rl", lesson: "Lesson 12", title: "Max-Entropy RL", connection: "The entropy bonus c₂·H[π] in PPO becomes the primary objective in max-ent RL.", x: tx, y: ys[0] },
-      { id: "sac", lesson: "Lesson 13", title: "SAC", connection: "SAC inherits PPO's spirit (bounded policy updates) for continuous-action deep RL.", x: tx, y: ys[1] },
-      { id: "rlhf", lesson: "Lesson 17", title: "RLHF / DPO", connection: "PPO powers LLM alignment: IS ratio = fine-tuned vs SFT; clipped surrogate = per-token PPO loss.", x: tx, y: ys[2] },
-      { id: "model-based", lesson: "Lesson 14*", title: "Model-Based RL", connection: "Deferred: PPO as the planner inside a learned world model (MuZero style).", x: tx, y: ys[3] },
-      { id: "offline-rl", lesson: "Lesson 15*", title: "Offline RL", connection: "Deferred: behavior-regularized PPO is the foundation of CQL and IQL.", x: tx, y: ys[4] },
+      { id: "max-ent-rl", lesson: "Lesson 12", title: "Max-Entropy RL", connection: "The entropy bonus c₂·H[π] inside PPO becomes the primary objective in max-entropy RL.", x: tx, y: H / 2 },
     ],
-    caption: "Lesson 11 — three forward threads (12→13→17) plus two deferred branches (*future work)",
+    caption: "Lesson 11 ties IS, FA and PG together and feeds forward into Lesson 12.",
   };
 }
 
 function maxEntLayout(): Layout {
-  const H = 300;
-  const tx = 590;
-  const ys = [28, 80, 132, 184, 236];
+  const H = 240;
   return {
-    W: 760,
+    W: 560,
     H,
-    source: { id: "max-ent-rl", lesson: "Lesson 12", title: "Max-Entropy RL", connection: "You are here. Soft Bellman, Boltzmann policies, and the goal-avoidance failure mode.", x: 200, y: H / 2, exists: true },
+    source: { id: "max-ent-rl", lesson: "Lesson 12", title: "Max-Entropy RL", connection: "You are here. Soft Bellman, Boltzmann policies, and the goal-avoidance failure mode.", x: 380, y: H / 2 },
     prereqs: [
-      { id: "trpo-ppo",        lesson: "Lesson 11", title: "TRPO / PPO",      connection: "The entropy bonus c₂·H[π] in PPO becomes the primary objective here.", x: 60, y: H / 2 - 60, exists: true },
-      { id: "policy-gradient", lesson: "Lesson 10", title: "Policy Gradient", connection: "The softmax cap (V≈0.722 < V*) is reframed as the correct soft-optimal policy at α≈0.02.", x: 60, y: H / 2,     exists: true },
-      { id: "dynamic-programming", lesson: "Lesson 3", title: "Dynamic Programming", connection: "Soft VI/PI are direct analogs of hard VI/PI with logsumexp replacing max.", x: 60, y: H / 2 + 60, exists: true },
+      { id: "dynamic-programming", lesson: "Lesson 3",  title: "Dynamic Programming", connection: "Soft VI/PI are direct analogs of hard VI/PI with logsumexp replacing max.", x: 80, y: H / 2 - 56 },
+      { id: "policy-gradient",     lesson: "Lesson 10", title: "Policy Gradient",     connection: "The softmax cap (V ≈ 0.722 < V*) is reframed as the correct soft-optimal policy at α ≈ 0.02.", x: 80, y: H / 2 },
+      { id: "trpo-ppo",            lesson: "Lesson 11", title: "TRPO / PPO",          connection: "The entropy bonus c₂·H[π] inside PPO becomes the primary objective here.", x: 80, y: H / 2 + 56 },
     ],
-    targets: [
-      { id: "sac",      lesson: "Lesson 13", title: "Soft Actor-Critic", connection: "SAC operationalizes soft Bellman for continuous actions with auto-tuned α.", x: tx, y: ys[0] },
-      { id: "rlhf-dpo", lesson: "Lesson 17", title: "RLHF & DPO",        connection: "KL-to-reference replaces entropy; the Boltzmann form stays the same.", x: tx, y: ys[1] },
-      { id: "model-based", lesson: "Lesson 14*", title: "Model-Based RL",   connection: "Deferred: planning under entropy-regularized objective is inference.", x: tx, y: ys[2] },
-      { id: "offline-rl",  lesson: "Lesson 15*", title: "Offline RL",       connection: "Deferred: CQL is a KL-constrained Boltzmann policy.", x: tx, y: ys[3] },
-    ],
-    caption: "Lesson 12 — soft Bellman + Boltzmann policy; forward to L13 (SAC) and L17 (RLHF)",
+    targets: [],
+    caption: "Lesson 12 — current endpoint of the built curriculum.",
   };
 }
+
+const LAYOUTS: Record<string, () => Layout> = {
+  bandits: banditsLayout,
+  "markov-chains": markovLayout,
+  mdps: mdpLayout,
+  contractions: contractionsLayout,
+  "dynamic-programming": dpLayout,
+  "importance-sampling": isLayout,
+  "monte-carlo": mcLayout,
+  "td-learning": tdLayout,
+  "function-approximation": faLayout,
+  "policy-gradient": pgLayout,
+  "trpo-ppo": ppoLayout,
+  "max-ent-rl": maxEntLayout,
+};
 
 export class RoadmapMini extends HTMLElement {
   connectedCallback(): void {
@@ -311,19 +298,7 @@ export class RoadmapMini extends HTMLElement {
   private render(): void {
     this.innerHTML = "";
     const active = this.getAttribute("active") ?? "bandits";
-    const layout =
-      active === "mdps"                    ? mdpLayout() :
-      active === "contractions"            ? contractionsLayout() :
-      active === "markov-chains"           ? markovLayout() :
-      active === "dynamic-programming"     ? dpLayout() :
-      active === "importance-sampling"     ? isLayout() :
-      active === "monte-carlo"             ? mcLayout() :
-      active === "td-learning"             ? tdLayout() :
-      active === "function-approximation"  ? faLayout() :
-      active === "policy-gradient"         ? pgLayout() :
-      active === "trpo-ppo"               ? ppoLayout() :
-      active === "max-ent-rl"             ? maxEntLayout() :
-      banditsLayout();
+    const layout = (LAYOUTS[active] ?? banditsLayout)();
     const { W, H } = layout;
 
     const { panel, body } = createPanel({ id: "roadmap-mini" });
@@ -375,14 +350,12 @@ export class RoadmapMini extends HTMLElement {
         .attr("opacity", 0.7);
     };
 
-    // source → each target
     for (const t of layout.targets) arrow(layout.source.x + 64, layout.source.y, t.x - 70, t.y);
-    // prereqs → source
     for (const pq of layout.prereqs) arrow(pq.x + 64, pq.y, layout.source.x - 64, layout.source.y);
 
-    this.drawNode(svg, layout.source, "active", tip);
-    for (const pq of layout.prereqs) this.drawNode(svg, pq, pq.exists ? "real" : "future", tip);
-    for (const t of layout.targets) this.drawNode(svg, t, BUILT.has(t.id) ? "real" : "future", tip);
+    this.drawNode(svg, layout.source, true, tip);
+    for (const pq of layout.prereqs) this.drawNode(svg, pq, false, tip);
+    for (const t of layout.targets) this.drawNode(svg, t, false, tip);
 
     svg
       .append("text")
@@ -397,32 +370,30 @@ export class RoadmapMini extends HTMLElement {
   private drawNode(
     svg: d3.Selection<SVGSVGElement, unknown, null, undefined>,
     node: RNode,
-    kind: "active" | "real" | "future",
+    isActive: boolean,
     tip: HTMLElement,
   ): void {
-    const w = kind === "active" ? 118 : 128;
+    const w = isActive ? 118 : 128;
     const h = 42;
-    const navigable = kind === "real";
     const g = svg
       .append("g")
       .attr("transform", `translate(${node.x - w / 2},${node.y - h / 2})`)
-      .style("cursor", navigable ? "pointer" : "default");
+      .style("cursor", "pointer");
 
     g.append("rect")
       .attr("width", w)
       .attr("height", h)
       .attr("rx", 8)
-      .attr("fill", kind === "active" ? "var(--rl-ucb-tint)" : kind === "real" ? "var(--rl-surface)" : "var(--rl-surface-2)")
-      .attr("stroke", kind === "active" ? "var(--rl-algo-ucb)" : kind === "real" ? "var(--rl-ink-muted)" : "var(--rl-border)")
-      .attr("stroke-width", kind === "active" ? 2 : 1)
-      .attr("opacity", kind === "future" ? 0.85 : 1);
+      .attr("fill", isActive ? "var(--rl-ucb-tint)" : "var(--rl-surface)")
+      .attr("stroke", isActive ? "var(--rl-algo-ucb)" : "var(--rl-ink-muted)")
+      .attr("stroke-width", isActive ? 2 : 1);
 
     g.append("text")
       .attr("x", w / 2)
       .attr("y", 16)
       .attr("text-anchor", "middle")
       .attr("class", "annot")
-      .attr("fill", kind === "active" ? "var(--rl-algo-ucb)" : "var(--rl-ink-faint)")
+      .attr("fill", isActive ? "var(--rl-algo-ucb)" : "var(--rl-ink-faint)")
       .style("font-family", "var(--rl-font-ui)")
       .style("font-size", "10px")
       .text(node.lesson);
@@ -430,21 +401,19 @@ export class RoadmapMini extends HTMLElement {
       .attr("x", w / 2)
       .attr("y", 31)
       .attr("text-anchor", "middle")
-      .attr("fill", kind === "future" ? "var(--rl-ink-muted)" : "var(--rl-ink)")
+      .attr("fill", "var(--rl-ink)")
       .style("font-family", "var(--rl-font-ui)")
       .style("font-size", "11px")
       .style("font-weight", "600")
       .text(this.truncate(node.title, w));
 
-    if (navigable) {
-      g.on("click", () => {
-        location.hash = `#${node.id}`;
-      });
-    }
+    g.on("click", () => {
+      location.hash = `#${node.id}`;
+    });
 
     g.on("mousemove", (ev: MouseEvent) => {
       const rect = (svg.node() as SVGSVGElement).getBoundingClientRect();
-      const nav = navigable ? '<br><span style="color:var(--rl-algo-ucb)">→ click to open</span>' : "";
+      const nav = isActive ? "" : '<br><span style="color:var(--rl-algo-ucb)">→ click to open</span>';
       tip.innerHTML = `<strong>${node.lesson} — ${node.title}</strong><br>${node.connection}${nav}`;
       tip.style.opacity = "1";
       tip.style.left = `${ev.clientX - rect.left + 12}px`;

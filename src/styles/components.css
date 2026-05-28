@@ -499,3 +499,49 @@ per-decision-is-stepwise {
   color: var(--rl-ink);
   line-height: 1.6;
 }
+
+/* Floating "Roadmap" jump button — fixed bottom-right, hides when the
+   target roadmap-mini is already on screen. */
+.roadmap-jump {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--rl-ink-muted);
+  background: var(--rl-surface);
+  color: var(--rl-ink);
+  font-family: var(--rl-font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+  transition: opacity 180ms ease, transform 180ms ease, background 120ms ease;
+}
+.roadmap-jump:hover {
+  background: var(--rl-ucb-tint);
+  border-color: var(--rl-algo-ucb);
+  color: var(--rl-algo-ucb);
+}
+.roadmap-jump:focus-visible {
+  outline: 2px solid var(--rl-algo-ucb);
+  outline-offset: 2px;
+}
+.roadmap-jump--hidden {
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+}
+@media (max-width: 640px) {
+  .roadmap-jump {
+    right: 12px;
+    bottom: 12px;
+    padding: 9px 12px;
+    font-size: 11px;
+  }
+}

@@ -26,7 +26,9 @@ import "./styles/dqn-tokens.css";
 import "./styles/pg-tokens.css";
 import "./styles/ppo-tokens.css";
 import "./styles/maxent-tokens.css";
+import "./styles/landing.css";
 
+import { buildLanding } from "./landing";
 import type { LessonMeta } from "./lesson/meta";
 import type { Section } from "./lesson/section";
 import { typesetMath } from "./lesson/render-math";
@@ -91,7 +93,8 @@ const LESSONS: LessonDef[] = [
   { slug: "max-ent-rl", eyebrow: "Lesson 12", meta: maxentMeta, sections: maxentSections },
 ];
 
-const DEFAULT_SLUG = "bandits";
+const DEFAULT_SLUG = "home";
+const HOME_SLUG = "home";
 
 function difficultyDots(n: number, max = 5): string {
   return "●".repeat(n) + "○".repeat(max - n);
@@ -101,16 +104,20 @@ function difficultyDots(n: number, max = 5): string {
 function buildNav(activeSlug: string): HTMLElement {
   const nav = document.createElement("nav");
   nav.className = "lesson-nav";
-  for (const l of LESSONS) {
+  const entries: { slug: string; label: string }[] = [
+    { slug: HOME_SLUG, label: "Home" },
+    ...LESSONS.map((l) => ({ slug: l.slug, label: l.meta.title })),
+  ];
+  for (const e of entries) {
     const a = document.createElement("a");
-    a.href = routeHref(l.slug);
-    a.textContent = l.meta.title;
-    a.className = "lesson-nav__link" + (l.slug === activeSlug ? " is-active" : "");
-    a.dataset.slug = l.slug;
+    a.href = routeHref(e.slug);
+    a.textContent = e.label;
+    a.className = "lesson-nav__link" + (e.slug === activeSlug ? " is-active" : "");
+    a.dataset.slug = e.slug;
     a.addEventListener("click", (ev) => {
       if (ev.metaKey || ev.ctrlKey || ev.shiftKey) return; // let new-tab work
       ev.preventDefault();
-      navigateTo(l.slug);
+      navigateTo(e.slug);
     });
     nav.appendChild(a);
   }
@@ -148,8 +155,10 @@ function buildMasthead(def: LessonDef): HTMLElement {
  */
 function currentSlug(): string {
   const hash = location.hash.replace(/^#\/?/, "");
+  if (hash === HOME_SLUG) return HOME_SLUG;
   if (LESSONS.some((l) => l.slug === hash)) return hash;
   const seg = location.pathname.replace(/\/+$/, "").split("/").pop() ?? "";
+  if (seg === HOME_SLUG) return HOME_SLUG;
   if (LESSONS.some((l) => l.slug === seg)) return seg;
   return DEFAULT_SLUG;
 }
@@ -167,18 +176,34 @@ function navigateTo(slug: string): void {
   render();
 }
 
+let renderedSlug: string | null = null;
+
 function render(): void {
   const root = document.getElementById("app");
   if (!root) throw new Error("#app not found");
-  root.innerHTML = "";
 
   const slug = currentSlug();
-  const def = LESSONS.find((l) => l.slug === slug) ?? LESSONS[0];
-
-  document.title = `${def.meta.title} · RL Curriculum`;
+  // Skip rebuild when the slug hasn't changed — lets in-page anchors
+  // like #curriculum on the landing scroll naturally without a re-render.
+  if (renderedSlug === slug) return;
+  renderedSlug = slug;
+  root.innerHTML = "";
 
   const article = document.createElement("article");
   article.className = "lesson-root";
+
+  if (slug === HOME_SLUG) {
+    document.title = "Reinforcement Learning · An Interactive Curriculum";
+    article.classList.add("is-landing");
+    article.appendChild(buildNav(HOME_SLUG));
+    article.appendChild(buildLanding());
+    root.appendChild(article);
+    window.scrollTo(0, 0);
+    return;
+  }
+
+  const def = LESSONS.find((l) => l.slug === slug) ?? LESSONS[0];
+  document.title = `${def.meta.title} · RL Curriculum`;
   article.appendChild(buildNav(def.slug));
   article.appendChild(buildMasthead(def));
 

@@ -196,13 +196,15 @@
 /* ── Curriculum map ──────────────────────────────────────────────────── */
 .landing-map__stage {
   display: block;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 .landing-map__svg {
   display: block;
   background: var(--rl-surface-2);
   border: 1px solid var(--rl-border);
   border-radius: 12px;
-  padding: 10px;
+  padding: 14px 18px;
   margin-bottom: 18px;
 }
 .landing-map__tip {

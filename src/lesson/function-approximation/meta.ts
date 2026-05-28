@@ -1,0 +1,41 @@
+import type { LessonMeta } from "../meta";
+
+export const dqnMeta: LessonMeta = {
+  id: "function-approximation",
+  title: "Function Approximation and Deep Q-Networks",
+  subtitle: "From tabular Q-learning to DQN, around the deadly triad",
+  tier: 1,
+  difficulty: 4,
+  estimatedReadMinutes: 85,
+  role: "critical-path",
+  prerequisites: [
+    { label: "Prereq C — Contractions", to: "contractions", anchor: "bellman-contraction" },
+    { label: "Lesson 2 — MDPs", to: "mdps", anchor: "action-value-function" },
+    { label: "Lesson 7 — Monte Carlo", to: "monte-carlo", anchor: "mc-vs-td" },
+    { label: "Lesson 8 — TD Learning", to: "td-learning", anchor: "q-learning" },
+    { label: "Lesson 8 — TD Learning", to: "td-learning", anchor: "maximization-bias" },
+  ],
+  exportedAnchors: [
+    "tabular-limits",
+    "linear-fa",
+    "semi-gradient-td",
+    "deadly-triad",
+    "bairds-counterexample",
+    "neural-q-network",
+    "dqn",
+    "target-network",
+    "experience-replay",
+    "double-dqn",
+    "dueling-dqn",
+    "dqn-family",
+  ],
+  centerpieceComponent: "DQNStabilityLab",
+  forwardLinksWhenReady: [
+    { to: "policy-gradient",  anchor: "actor-critic" },
+    { to: "trpo-ppo",         anchor: "value-baseline" },
+    { to: "max-ent-rl",       anchor: "soft-q-learning" },
+    { to: "sac",              anchor: "twin-q-networks" },
+    { to: "offline-rl",       anchor: "conservative-q-learning" },
+    { to: "rlhf",             anchor: "reward-model-training" },
+  ],
+};

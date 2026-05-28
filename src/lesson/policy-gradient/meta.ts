@@ -1,0 +1,43 @@
+import type { LessonMeta } from "../meta";
+
+export const pgMeta: LessonMeta = {
+  id: "policy-gradient",
+  title: "Policy Gradient Methods",
+  subtitle: "Parameterize the policy. Optimize by gradient ascent. Tame the variance.",
+  tier: 1,
+  difficulty: 4,
+  estimatedReadMinutes: 80,
+  role: "critical-path",
+  prerequisites: [
+    { label: "Lesson 2 — MDPs", to: "mdps", anchor: "discounted-return" },
+    { label: "Prereq C — Contractions", to: "contractions", anchor: "bellman-contraction" },
+    { label: "Lesson 7 — Monte Carlo", to: "monte-carlo", anchor: "mc-policy-evaluation" },
+    { label: "Lesson 8 — TD Learning", to: "td-learning", anchor: "td-zero-prediction" },
+    { label: "Lesson 8 — TD Learning", to: "td-learning", anchor: "td-convergence" },
+    { label: "Lesson 9 — DQN", to: "function-approximation", anchor: "neural-q-network" },
+  ],
+  exportedAnchors: [
+    "policy-gradient-motivation",
+    "score-function-estimator",
+    "log-derivative-trick",
+    "policy-gradient-theorem",
+    "reinforce-algorithm",
+    "control-variate-baseline",
+    "actor-critic",
+    "advantage-function",
+    "bias-variance-trade-off",
+    "softmax-policy",
+    "gaussian-policy",
+    "gae",
+    "pg-forward-links",
+  ],
+  centerpieceComponent: "PolicyGradientLab",
+  forwardLinksWhenReady: [
+    { to: "trpo-ppo",    anchor: "trust-region-policy-optimization" },
+    { to: "trpo-ppo",    anchor: "generalized-advantage-estimation" },
+    { to: "max-ent-rl",  anchor: "entropy-regularization" },
+    { to: "sac",         anchor: "soft-actor-critic" },
+    { to: "model-based", anchor: "model-based-pg" },
+    { to: "rlhf",        anchor: "rlhf-with-ppo" },
+  ],
+};

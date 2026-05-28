@@ -1,0 +1,22 @@
+/* Policy Gradient Methods — lesson color tokens. */
+:root {
+  /* Policy parameterization */
+  --pg-softmax:        #7c3aed;   /* violet-600  | softmax policy */
+  --pg-gaussian:       #0e7490;   /* cyan-700    | Gaussian policy */
+  --pg-theta:          #1d4ed8;   /* blue-700    | parameter vector θ */
+
+  /* Algorithms */
+  --pg-vanilla:        #b45309;   /* amber-700   | vanilla REINFORCE */
+  --pg-baseline:       #15803d;   /* green-700   | REINFORCE with baseline */
+  --pg-actor-critic:   #be185d;   /* pink-700    | one-step actor-critic */
+
+  /* Gradient concepts */
+  --pg-advantage:      #0f766e;   /* teal-700    | advantage A(s,a) */
+  --pg-value:          #4338ca;   /* indigo-700  | value V(s) */
+  --pg-td-error:       #dc2626;   /* red-600     | TD error δ */
+
+  /* Bias-variance spectrum */
+  --pg-high-variance:  #dc2626;   /* red-600     | n=∞ MC end */
+  --pg-high-bias:      #0891b2;   /* cyan-600    | n=1 TD end */
+  --pg-balanced:       #15803d;   /* green-700   | GAE/n-step sweet spot */
+}

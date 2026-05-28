@@ -6,4 +6,8 @@ export default defineConfig({
     target: "es2020",
     sourcemap: true,
   },
+  assetsInclude: ["**/*.onnx"],
+  optimizeDeps: {
+    exclude: ["onnxruntime-web"],
+  },
 });

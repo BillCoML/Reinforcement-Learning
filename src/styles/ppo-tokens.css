@@ -1,0 +1,21 @@
+/* TRPO and PPO (Lesson 11) — lesson color tokens. */
+:root {
+  --ppo-bg: #faf8f3;
+  --ppo-text: #1c1e22;
+
+  /* Algorithm colors — preserves curriculum threads */
+  --ppo-vanilla: #b45309;     /* amber: raw on-policy PG, matches L10 REINFORCE */
+  --ppo-baseline: #0e7490;    /* cyan: critic / bootstrapping, matches L10 AC */
+  --ppo-clipped: #7c3aed;     /* violet: the principled distribution being optimized */
+  --ppo-trpo: #6d28d9;        /* deeper violet: TRPO as the principled ancestor */
+
+  /* Mechanism highlights */
+  --ppo-clip-region: #fbbf24; /* amber-lighter: the clip interval [1-eps, 1+eps] */
+  --ppo-clip-bind:  #ea580c;  /* orange: a sample whose ratio is being clipped */
+  --ppo-kl:         #be185d;  /* pink: KL divergence */
+
+  /* Outcome colors */
+  --ppo-converged:  #15803d;  /* green: converged, optimal-leaning */
+  --ppo-diverged:   #dc2626;  /* red: divergence warning */
+  --ppo-gae-line:   #db2777;  /* pink: the GAE interpolator curve */
+}

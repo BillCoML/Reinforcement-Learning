@@ -20,7 +20,8 @@
     "@fontsource/jetbrains-mono": "^5.0.20",
     "d3": "^7.9.0",
     "katex": "^0.16.11",
-    "ml-matrix": "^6.11.1"
+    "ml-matrix": "^6.11.1",
+    "onnxruntime-web": "^1.18.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.60.0",

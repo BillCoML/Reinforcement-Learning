@@ -1,0 +1,29 @@
+:root {
+  --maxent-bg: #faf8f3;
+  --maxent-text: #1c1e22;
+
+  /* Algorithm colors */
+  --maxent-hard: #15803d;       /* green: hard / deterministic optimum (V*) */
+  --maxent-soft: #7c3aed;       /* violet: entropy-regularized distribution */
+  --maxent-uniform: #6b7280;    /* gray: the uninformative limit */
+  --maxent-entropy: #be185d;    /* pink: the entropy bonus / interpolator */
+
+  /* Spectrum colors (alpha axis) */
+  --maxent-alpha-low: #15803d;  /* green: alpha -> 0 */
+  --maxent-alpha-mid: #7c3aed;  /* violet: useful regime */
+  --maxent-alpha-high: #ea580c; /* orange: failure regime */
+
+  /* Special */
+  --maxent-cap: #db2777;        /* pink: the L10 softmax cap */
+  --maxent-failure: #dc2626;    /* red: goal-avoidance failure */
+
+  /* Inference view */
+  --maxent-likelihood: #0e7490; /* cyan: the optimality observation */
+  --maxent-posterior: #7c3aed;  /* violet: the posterior policy */
+
+  /* Tints */
+  --maxent-soft-tint: #ede9fe;
+  --maxent-hard-tint: #dcfce7;
+  --maxent-failure-tint: #fee2e2;
+  --maxent-entropy-tint: #fce7f3;
+}

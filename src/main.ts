@@ -22,6 +22,10 @@ import "./styles/dp-tokens.css";
 import "./styles/is-tokens.css";
 import "./styles/mc-tokens.css";
 import "./styles/td-tokens.css";
+import "./styles/dqn-tokens.css";
+import "./styles/pg-tokens.css";
+import "./styles/ppo-tokens.css";
+import "./styles/maxent-tokens.css";
 
 import type { LessonMeta } from "./lesson/meta";
 import type { Section } from "./lesson/section";
@@ -44,6 +48,10 @@ import { dpMeta, dpSections } from "./lesson/dp";
 import { isMeta, isSections } from "./lesson/importance-sampling";
 import { mcMeta, mcSections } from "./lesson/monte-carlo";
 import { tdMeta, tdSections } from "./lesson/td-learning";
+import { dqnMeta, dqnSections } from "./lesson/function-approximation";
+import { pgMeta, pgSections } from "./lesson/policy-gradient";
+import { ppoMeta, ppoSections } from "./lesson/l11-trpo-ppo";
+import { maxentMeta, maxentSections } from "./lesson/l12-max-ent-rl";
 
 // Register all interactive Web Components (self-registering on import).
 import "./components/registry";
@@ -54,6 +62,10 @@ import "./components/dp-registry";
 import "./components/is-registry";
 import "./components/mc-registry";
 import "./components/td-registry";
+import "./components/dqn-registry";
+import "./components/pg-registry";
+import "./components/ppo-registry";
+import "./components/maxent-registry";
 
 interface LessonDef {
   /** URL slug, e.g. "bandits" → /bandits. */
@@ -73,6 +85,10 @@ const LESSONS: LessonDef[] = [
   { slug: "importance-sampling", eyebrow: "Lesson 6", meta: isMeta, sections: isSections },
   { slug: "monte-carlo", eyebrow: "Lesson 7", meta: mcMeta, sections: mcSections },
   { slug: "td-learning", eyebrow: "Lesson 8", meta: tdMeta, sections: tdSections },
+  { slug: "function-approximation", eyebrow: "Lesson 9", meta: dqnMeta, sections: dqnSections },
+  { slug: "policy-gradient", eyebrow: "Lesson 10", meta: pgMeta, sections: pgSections },
+  { slug: "trpo-ppo", eyebrow: "Lesson 11", meta: ppoMeta, sections: ppoSections },
+  { slug: "max-ent-rl", eyebrow: "Lesson 12", meta: maxentMeta, sections: maxentSections },
 ];
 
 const DEFAULT_SLUG = "bandits";

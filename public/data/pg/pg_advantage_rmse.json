@@ -1,0 +1,71 @@
+{
+  "trueAdvantage": 0.00538,
+  "trueV0": 0.71233,
+  "trueQ0Right": 0.71771,
+  "nEpisodesPerN": 500,
+  "results": [
+    {
+      "n": 1,
+      "rmse": 0.004596,
+      "biasSq": 2.1e-05,
+      "variance": 0.0,
+      "meanEstimate": 0.00078
+    },
+    {
+      "n": 2,
+      "rmse": 0.015377,
+      "biasSq": 2.2e-05,
+      "variance": 0.000214,
+      "meanEstimate": 0.00067
+    },
+    {
+      "n": 3,
+      "rmse": 0.028305,
+      "biasSq": 3.4e-05,
+      "variance": 0.000767,
+      "meanEstimate": -0.00043
+    },
+    {
+      "n": 5,
+      "rmse": 0.107056,
+      "biasSq": 0.000185,
+      "variance": 0.011276,
+      "meanEstimate": -0.00821
+    },
+    {
+      "n": 8,
+      "rmse": 0.070869,
+      "biasSq": 9.5e-05,
+      "variance": 0.004927,
+      "meanEstimate": -0.00436
+    },
+    {
+      "n": 13,
+      "rmse": 0.032491,
+      "biasSq": 6.6e-05,
+      "variance": 0.00099,
+      "meanEstimate": -0.00274
+    },
+    {
+      "n": 21,
+      "rmse": 0.025537,
+      "biasSq": 2.7e-05,
+      "variance": 0.000625,
+      "meanEstimate": 0.00014
+    },
+    {
+      "n": 50,
+      "rmse": 0.079061,
+      "biasSq": 9.9e-05,
+      "variance": 0.006152,
+      "meanEstimate": -0.00455
+    },
+    {
+      "n": 200,
+      "rmse": 0.079336,
+      "biasSq": 0.000138,
+      "variance": 0.006156,
+      "meanEstimate": -0.00638
+    }
+  ]
+}

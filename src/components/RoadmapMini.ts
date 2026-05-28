@@ -30,7 +30,7 @@ interface Layout {
 }
 
 // Lessons that have actually shipped (solid, navigable).
-const BUILT = new Set(["bandits", "markov-chains", "mdps", "contractions", "dynamic-programming", "importance-sampling", "monte-carlo", "td-learning"]);
+const BUILT = new Set(["bandits", "markov-chains", "mdps", "contractions", "dynamic-programming", "importance-sampling", "monte-carlo", "td-learning", "function-approximation", "policy-gradient", "trpo-ppo", "max-ent-rl"]);
 
 function banditsLayout(): Layout {
   const H = 320;
@@ -193,6 +193,54 @@ function tdLayout(): Layout {
   };
 }
 
+function faLayout(): Layout {
+  const H = 300;
+  const tx = 590;
+  const ys = [28, 80, 132, 184, 236];
+  return {
+    W: 760,
+    H,
+    source: { id: "function-approximation", lesson: "Lesson 9", title: "Function Approx & DQN", connection: "You are here. Semi-gradient TD, the deadly triad, and Deep Q-Networks.", x: 200, y: H / 2, exists: true },
+    prereqs: [
+      { id: "td-learning",   lesson: "Lesson 8", title: "TD Learning",   connection: "DQN is Q-learning with a neural net; target network + replay fix the instabilities of Table §3.", x: 60, y: H / 2 - 60, exists: true },
+      { id: "mdps",          lesson: "Lesson 2", title: "MDPs",           connection: "The Bellman optimality equation is what the Q-network is trained to satisfy.", x: 60, y: H / 2,        exists: true },
+      { id: "monte-carlo",   lesson: "Lesson 7", title: "Monte Carlo",    connection: "Experience replay turns DQN's online transitions into an iid sample — the MC intuition.", x: 60, y: H / 2 + 60, exists: true },
+    ],
+    targets: [
+      { id: "policy-gradient", lesson: "Lesson 10", title: "Policy Gradient",   connection: "Actor-critic replaces tabular V with a learned V_θ — the function-approximation leap.", x: tx, y: ys[0] },
+      { id: "trpo-ppo",        lesson: "Lesson 11", title: "TRPO/PPO",           connection: "PPO's value network is a linear FA + DQN hybrid; trust region corrects for deadly-triad instability.", x: tx, y: ys[1] },
+      { id: "max-ent-rl",      lesson: "Lesson 12", title: "Max-Entropy RL",     connection: "SAC extends DQN with a soft Bellman operator; double Q-nets tame maximization bias.", x: tx, y: ys[2] },
+      { id: "offline-rl",      lesson: "Lesson 15", title: "Offline RL",         connection: "Offline RL constraints (CQL, IQL) penalize OOD Q-values — the deadly triad in a fixed dataset.", x: tx, y: ys[3] },
+      { id: "rlhf",            lesson: "Lesson 17", title: "RLHF",               connection: "Reward models are Q-functions trained by preference comparisons — the same FA machinery.", x: tx, y: ys[4] },
+    ],
+    caption: "Lesson 9 bridges model-free tabular RL and deep RL — five threads forward",
+  };
+}
+
+function pgLayout(): Layout {
+  const H = 300;
+  const tx = 590;
+  const ys = [28, 80, 132, 184, 236];
+  return {
+    W: 760,
+    H,
+    source: { id: "policy-gradient", lesson: "Lesson 10", title: "Policy Gradient", connection: "You are here. REINFORCE, actor-critic, and the bias-variance tradeoff in advantage estimation.", x: 200, y: H / 2, exists: true },
+    prereqs: [
+      { id: "monte-carlo",          lesson: "Lesson 7", title: "Monte Carlo",          connection: "REINFORCE is on-policy MC gradient ascent; G_t is the credit-assignment signal.", x: 60, y: H / 2 - 60, exists: true },
+      { id: "td-learning",          lesson: "Lesson 8", title: "TD Learning",           connection: "TD value estimates form the critic; GAE(λ) uses TD(λ) for advantage estimation.", x: 60, y: H / 2,     exists: true },
+      { id: "function-approximation", lesson: "Lesson 9", title: "Function Approx",    connection: "Actor-critic replaces tabular V with a learned V_θ — the function-approximation leap.", x: 60, y: H / 2 + 60, exists: true },
+    ],
+    targets: [
+      { id: "trpo-ppo",   lesson: "Lesson 11", title: "TRPO / PPO",      connection: "Trust regions and clipped objectives prevent catastrophically large policy gradient steps.", x: tx, y: ys[0] },
+      { id: "max-ent-rl", lesson: "Lesson 12", title: "Max-Entropy RL",  connection: "Adds an entropy bonus H[π] to the PG objective — prevents collapse and improves exploration.", x: tx, y: ys[1] },
+      { id: "sac",        lesson: "Lesson 13", title: "SAC",              connection: "Off-policy actor-critic with replay buffer and twin Q-nets — max-entropy PG at scale.", x: tx, y: ys[2] },
+      { id: "model-based", lesson: "Lesson 14", title: "Model-Based RL", connection: "Backpropagating through a learned model to the policy gradient is MBPO / Dreamer.", x: tx, y: ys[3] },
+      { id: "rlhf",       lesson: "Lesson 17", title: "RLHF",             connection: "The LM is the policy, the reward model replaces the env; PPO actor-critic runs the update.", x: tx, y: ys[4] },
+    ],
+    caption: "Lesson 10 connects model-free learning to the deep RL frontier — five threads forward",
+  };
+}
+
 function markovLayout(): Layout {
   const H = 240;
   return {
@@ -208,6 +256,53 @@ function markovLayout(): Layout {
   };
 }
 
+function ppoLayout(): Layout {
+  const H = 300;
+  const tx = 590;
+  const ys = [28, 80, 132, 184, 236];
+  return {
+    W: 760,
+    H,
+    source: { id: "trpo-ppo", lesson: "Lesson 11", title: "TRPO / PPO", connection: "You are here. Trust regions, the clipped surrogate, GAE, and the PPO algorithm.", x: 200, y: H / 2, exists: true },
+    prereqs: [
+      { id: "policy-gradient", lesson: "Lesson 10", title: "Policy Gradient", connection: "PPO is actor-critic with a clipped IS surrogate and multiple epochs per batch.", x: 60, y: H / 2 - 60, exists: true },
+      { id: "importance-sampling", lesson: "Lesson 6", title: "Importance Sampling", connection: "PPO's probability ratio r_t = π/π_old is the IS weight — same object, same variance problem.", x: 60, y: H / 2, exists: true },
+      { id: "function-approximation", lesson: "Lesson 9", title: "Function Approx", connection: "The deadly triad motivates PPO's bounded updates — clipping is the on-policy antidote.", x: 60, y: H / 2 + 60, exists: true },
+    ],
+    targets: [
+      { id: "max-ent-rl", lesson: "Lesson 12", title: "Max-Entropy RL", connection: "The entropy bonus c₂·H[π] in PPO becomes the primary objective in max-ent RL.", x: tx, y: ys[0] },
+      { id: "sac", lesson: "Lesson 13", title: "SAC", connection: "SAC inherits PPO's spirit (bounded policy updates) for continuous-action deep RL.", x: tx, y: ys[1] },
+      { id: "rlhf", lesson: "Lesson 17", title: "RLHF / DPO", connection: "PPO powers LLM alignment: IS ratio = fine-tuned vs SFT; clipped surrogate = per-token PPO loss.", x: tx, y: ys[2] },
+      { id: "model-based", lesson: "Lesson 14*", title: "Model-Based RL", connection: "Deferred: PPO as the planner inside a learned world model (MuZero style).", x: tx, y: ys[3] },
+      { id: "offline-rl", lesson: "Lesson 15*", title: "Offline RL", connection: "Deferred: behavior-regularized PPO is the foundation of CQL and IQL.", x: tx, y: ys[4] },
+    ],
+    caption: "Lesson 11 — three forward threads (12→13→17) plus two deferred branches (*future work)",
+  };
+}
+
+function maxEntLayout(): Layout {
+  const H = 300;
+  const tx = 590;
+  const ys = [28, 80, 132, 184, 236];
+  return {
+    W: 760,
+    H,
+    source: { id: "max-ent-rl", lesson: "Lesson 12", title: "Max-Entropy RL", connection: "You are here. Soft Bellman, Boltzmann policies, and the goal-avoidance failure mode.", x: 200, y: H / 2, exists: true },
+    prereqs: [
+      { id: "trpo-ppo",        lesson: "Lesson 11", title: "TRPO / PPO",      connection: "The entropy bonus c₂·H[π] in PPO becomes the primary objective here.", x: 60, y: H / 2 - 60, exists: true },
+      { id: "policy-gradient", lesson: "Lesson 10", title: "Policy Gradient", connection: "The softmax cap (V≈0.722 < V*) is reframed as the correct soft-optimal policy at α≈0.02.", x: 60, y: H / 2,     exists: true },
+      { id: "dynamic-programming", lesson: "Lesson 3", title: "Dynamic Programming", connection: "Soft VI/PI are direct analogs of hard VI/PI with logsumexp replacing max.", x: 60, y: H / 2 + 60, exists: true },
+    ],
+    targets: [
+      { id: "sac",      lesson: "Lesson 13", title: "Soft Actor-Critic", connection: "SAC operationalizes soft Bellman for continuous actions with auto-tuned α.", x: tx, y: ys[0] },
+      { id: "rlhf-dpo", lesson: "Lesson 17", title: "RLHF & DPO",        connection: "KL-to-reference replaces entropy; the Boltzmann form stays the same.", x: tx, y: ys[1] },
+      { id: "model-based", lesson: "Lesson 14*", title: "Model-Based RL",   connection: "Deferred: planning under entropy-regularized objective is inference.", x: tx, y: ys[2] },
+      { id: "offline-rl",  lesson: "Lesson 15*", title: "Offline RL",       connection: "Deferred: CQL is a KL-constrained Boltzmann policy.", x: tx, y: ys[3] },
+    ],
+    caption: "Lesson 12 — soft Bellman + Boltzmann policy; forward to L13 (SAC) and L17 (RLHF)",
+  };
+}
+
 export class RoadmapMini extends HTMLElement {
   connectedCallback(): void {
     this.render();
@@ -217,13 +312,17 @@ export class RoadmapMini extends HTMLElement {
     this.innerHTML = "";
     const active = this.getAttribute("active") ?? "bandits";
     const layout =
-      active === "mdps"                  ? mdpLayout() :
-      active === "contractions"          ? contractionsLayout() :
-      active === "markov-chains"         ? markovLayout() :
-      active === "dynamic-programming"   ? dpLayout() :
-      active === "importance-sampling"   ? isLayout() :
-      active === "monte-carlo"           ? mcLayout() :
-      active === "td-learning"           ? tdLayout() :
+      active === "mdps"                    ? mdpLayout() :
+      active === "contractions"            ? contractionsLayout() :
+      active === "markov-chains"           ? markovLayout() :
+      active === "dynamic-programming"     ? dpLayout() :
+      active === "importance-sampling"     ? isLayout() :
+      active === "monte-carlo"             ? mcLayout() :
+      active === "td-learning"             ? tdLayout() :
+      active === "function-approximation"  ? faLayout() :
+      active === "policy-gradient"         ? pgLayout() :
+      active === "trpo-ppo"               ? ppoLayout() :
+      active === "max-ent-rl"             ? maxEntLayout() :
       banditsLayout();
     const { W, H } = layout;
 
